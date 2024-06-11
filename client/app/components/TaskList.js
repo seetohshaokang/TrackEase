@@ -1,31 +1,25 @@
 "use client";
-import axios from "axios";
-import { useEffect, useState } from "react";
+
+import { useContext, useEffect } from "react";
+import { TaskContext } from "../context/TaskContext";
+import Task from "./Task";
 
 function TaskList() {
-  const [tasks, setTasks] = useState([]);
+  const { tasks, fetchTasks } = useContext(TaskContext);
 
   useEffect(() => {
-    async function fetchTasks() {
-      try {
-        const res = await axios.get("/api/tasks", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        setTasks(res.data);
-      } catch (error) {
-        console.error("Error fetching tasks", error);
-      }
+    if (fetchTasks) {
+      fetchTasks(); // Ensure tasks are fetched on component mount
     }
-    fetchTasks();
-  }, []);
+  }, [fetchTasks]);
 
   return (
     <div>
-      {tasks.map((task) => (
-        <div key={task.id}>{task.title}</div>
-      ))}
+      {tasks.length === 0 ? (
+        <div>No tasks found</div>
+      ) : (
+        tasks.map((task) => <Task key={task.id} task={task} />)
+      )}
     </div>
   );
 }

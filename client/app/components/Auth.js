@@ -11,6 +11,9 @@ function Auth() {
     signInWithPopup(auth, provider)
       .then((result) => {
         console.log(result);
+        const token = result.user.accessToken;
+        localStorage.setItem("token", token); // Store token in localStorage
+        alert("You have successfully logged in!"); // Alert user of successful login
         router.push("/tasks");
         // Handle successful login here
       })
@@ -23,7 +26,9 @@ function Auth() {
   function signOutUser() {
     signOut(auth)
       .then(() => {
+        localStorage.removeItem("token"); // Remove token from local storage
         console.log("User signed out");
+        alert("You have successfully logged out!"); // Alert user of successful logout
       })
       .catch((error) => {
         console.error(error);

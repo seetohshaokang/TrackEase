@@ -5,11 +5,7 @@ const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
 
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-  })
-); // limit the links later
+app.use(cors()); // limit the links later
 app.use(express.json());
 
 app.use("/api/tasks", taskRoutes);
