@@ -15,7 +15,7 @@ exports.checkAuth = (req, res, next) => {
     .verifyIdToken(token)
     .then((decodedToken) => {
       req.user = decodedToken;
-      console.log("Decoded token:", decodedToken);
+      // console.log("Decoded token:", decodedToken);
       next();
     })
     .catch((error) =>

@@ -1,8 +1,8 @@
 "use client";
 
-import { signInWithPopup, signOut } from "firebase/auth";
+import { getIdToken, signInWithPopup, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { auth, provider } from "./../firebase/firebaseConfig";
+import { auth, provider } from "../_firebase/firebaseConfig";
 
 function Auth() {
   const router = useRouter();
@@ -10,12 +10,20 @@ function Auth() {
   function signInWithGoogle() {
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log(result);
-        const token = result.user.accessToken;
+        // const token = result.user.accessToken;
+
+        getIdToken(result.user).then((idToken) => {
+          console.log(idToken);
+          localStorage.setItem("token", idToken);
+          alert("You have successfully logged in!");
+          router.push("/tasks");
+        });
+        /*
         localStorage.setItem("token", token); // Store token in localStorage
         alert("You have successfully logged in!"); // Alert user of successful login
         router.push("/tasks");
         // Handle successful login here
+        */
       })
       .catch((error) => {
         console.error(error);

@@ -15,7 +15,7 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.createTask = async (req, res) => {
-  console.log(req.body);
+  // console.log(req);
   const { title, deadline, remarks, status } = req.body;
   const newTask = new Task({
     title,
@@ -26,6 +26,7 @@ exports.createTask = async (req, res) => {
   });
   try {
     const savedTask = await newTask.save();
+    console.log(savedTask.params._id);
     res.status(201).json(savedTask);
   } catch (error) {
     res
@@ -42,6 +43,7 @@ exports.updateTask = async (req, res) => {
       { title, deadline, remarks, status },
       { new: true }
     );
+    console.log(updatedTask);
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
@@ -56,7 +58,7 @@ exports.updateTask = async (req, res) => {
 
 exports.deleteTask = async (req, res) => {
   try {
-    await Task.findByIdAndDelete(req.params.id);
+    const deletedTask = await Task.findByIdAndDelete(req.params.id);
     if (!deletedTask) {
       return res.status(404).json({ message: "Task not found" });
     }

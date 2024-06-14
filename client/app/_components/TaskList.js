@@ -9,16 +9,25 @@ function TaskList() {
 
   useEffect(() => {
     if (fetchTasks) {
-      fetchTasks(); // Ensure tasks are fetched on component mount
+      fetchTasks() // Ensure tasks are fetched on component mount
+        .then(() => console.log("Tasks fetched:", tasks));
     }
   }, [fetchTasks]);
+
+  const handleTaskChange = () => {
+    fetchTasks(); // Refetch tasks from the server to get updated list
+  };
+
+  console.log("Tasks:", tasks);
 
   return (
     <div>
       {tasks.length === 0 ? (
         <div>No tasks found</div>
       ) : (
-        tasks.map((task) => <Task key={task.id} task={task} />)
+        tasks.map((task) => (
+          <Task key={task._id} task={task} onTaskChange={handleTaskChange} />
+        ))
       )}
     </div>
   );
