@@ -42,12 +42,13 @@ function TaskForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form-control">
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Title"
+        className="input input-bordered"
       />
       <input
         type="date"
@@ -55,13 +56,17 @@ function TaskForm() {
         onChange={(e) => setDeadline(e.target.value)}
         placeholder="Deadline"
         required
+        className="input input-bordered"
       ></input>
       <textarea
         value={remarks}
         onChange={(e) => setRemarks(e.target.value)}
         placeholder="Remarks"
+        className="textarea textarea-bordered"
       ></textarea>
-      <button type="submit">Add Task</button>
+      <button type="submit" className="btn btn-primary">
+        Add Task
+      </button>
     </form>
   );
 }

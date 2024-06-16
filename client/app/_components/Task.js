@@ -52,33 +52,44 @@ export default function Task({ task, onTaskChange }) {
   }
 
   return (
-    <div key={task._id}>
+    <div key={task._id} className="card w-96 bg-base-100 shadow-xl">
       {editMode ? (
         <>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className="input input-bordered"
           />
           <input
             type="date"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
+            className="input input-bordered"
           />
           <textarea
             value={remarks}
             onChange={(e) => setRemarks(e.target.value)}
+            className="text-area textarea-bordered"
           ></textarea>
-          <button onClick={handleUpdate}>Save</button>
-          <button onClick={() => setEditMode(false)}>Cancel</button>
+          <button onClick={handleUpdate} className="btn btn-success">
+            Save
+          </button>
+          <button onClick={() => setEditMode(false)} className="btn btn-error">
+            Cancel
+          </button>
         </>
       ) : (
         <>
           <h3>{task.title}</h3>
           <p>Deadline: {new Date(task.deadline).toLocaleDateString()}</p>
           <p>Remarks: {task.remarks}</p>
-          <button onClick={() => setEditMode(true)}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
+          <button onClick={() => setEditMode(true)} className="btn btn-primary">
+            Edit
+          </button>
+          <button onClick={handleDelete} className="btn btn-error">
+            Delete
+          </button>
         </>
       )}
     </div>

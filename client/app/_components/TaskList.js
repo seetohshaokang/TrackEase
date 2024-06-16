@@ -21,9 +21,9 @@ function TaskList() {
   console.log("Tasks:", tasks);
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {tasks.length === 0 ? (
-        <div>No tasks found</div>
+        <div className="alert alert-warning">No tasks found</div>
       ) : (
         tasks.map((task) => (
           <Task key={task._id} task={task} onTaskChange={handleTaskChange} />
