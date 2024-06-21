@@ -45,8 +45,7 @@ function Auth() {
 
   return (
     <div>
-      <button onClick={signInWithGoogle}>Sign in with Google </button>
-      <button onClick={signOutUser}>Sign out</button>
+      <button className="btn btn-outline btn-success mt-5" onClick={signInWithGoogle}>Sign in with Google </button>
     </div>
   );
 }
