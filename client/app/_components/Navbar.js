@@ -34,6 +34,9 @@ function Navbar() {
 </svg>
           </Link>
         </li>
+        <li>
+          <Link href="/events">Events</Link>
+        </li>
       </ul>
     </nav>
   );

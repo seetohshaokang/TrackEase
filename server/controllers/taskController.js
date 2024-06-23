@@ -24,6 +24,7 @@ exports.createTask = async (req, res) => {
     status: status || "pending", // Default status if not provided
     user_id: req.user.uid,
   });
+  console.log("New task created");
   try {
     const savedTask = await newTask.save();
     console.log(savedTask.params._id);
