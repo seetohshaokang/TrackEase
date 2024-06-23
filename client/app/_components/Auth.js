@@ -1,46 +1,53 @@
 "use client";
 
-import { getIdToken, signInWithPopup, signOut } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  getIdToken,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { auth, provider } from "../_firebase/firebaseConfig";
+import { auth } from "../_firebase/firebaseConfig";
 
 function Auth() {
   const router = useRouter();
 
-  function signInWithGoogle() {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // const token = result.user.accessToken;
+  async function signInWithGoogle() {
+    // Configure Google Provider to request access to Google Calendar
+    const provider = new GoogleAuthProvider();
+    provider.addScope("https://www.googleapis.com/auth/calendar");
 
-        getIdToken(result.user).then((idToken) => {
-          console.log(idToken);
-          localStorage.setItem("token", idToken);
-          alert("You have successfully logged in!");
-          router.push("/tasks");
-        });
-        /*
-        localStorage.setItem("token", token); // Store token in localStorage
-        alert("You have successfully logged in!"); // Alert user of successful login
-        router.push("/tasks");
-        // Handle successful login here
-        */
-      })
-      .catch((error) => {
-        console.error(error);
-        // Handle errors here
-      });
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const googleAccessToken = credential.accessToken;
+
+      const idToken = await getIdToken(result.user, true);
+      console.log("Firebase ID Token:", idToken);
+      console.log("Google Access Token:", googleAccessToken);
+
+      // Store both tokens in localStorage
+      localStorage.setItem("firebaseToken", idToken);
+      localStorage.setItem("googleAccessToken", googleAccessToken);
+      alert("You have successfully logged in!");
+      router.push("/tasks");
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+    }
   }
 
-  function signOutUser() {
-    signOut(auth)
-      .then(() => {
-        localStorage.removeItem("token"); // Remove token from local storage
-        console.log("User signed out");
-        alert("You have successfully logged out!"); // Alert user of successful logout
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  async function signOutUser() {
+    try {
+      await signOut(auth);
+      localStorage.removeItem("firebaseToken"); // Remove firebase token
+      console.log("removed firebaseToken");
+      localStorage.removeItem("googleAccessToken");
+      console.log("removed googleAccessToken");
+      alert("You have successfully logged out!"); // Alert user of successful logout
+    } catch (error) {
+      console.error("Sign-out error:", error);
+      alert("Failed to sign out.");
+    }
   }
 
   return (

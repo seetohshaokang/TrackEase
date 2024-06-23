@@ -11,9 +11,9 @@ function TaskForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     // console.log("API URL:", process.env.REACT_APP_API_URL);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("firebaseToken");
     if (!token) {
-      console.error("No token found in localStorage");
+      console.error("No firebase token found in localStorage");
       return;
     }
 

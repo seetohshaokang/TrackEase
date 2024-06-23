@@ -8,16 +8,20 @@ export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
 
   const fetchTasks = useCallback(async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("firebaseToken");
+    console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
     try {
       const response = await fetch(`http://localhost:8000/api/tasks/tasklist`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error fetching tasks");
-      }
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(
+          `Error fetching tasks: ${data.message || "Unknown error"} (Status: ${
+            response.status
+          })`
+        );
+      }
       setTasks(data);
     } catch (error) {
       console.error("Error fetching tasks", error);
