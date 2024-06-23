@@ -4,7 +4,7 @@ import { TasksProvider } from "../context/TaskContext";
 
 export default function TaskPage() {
   return (
-    <div>
+    <div className="px-40">
       <h1>Task Tracker</h1>
       <TasksProvider>
         <TaskForm />
