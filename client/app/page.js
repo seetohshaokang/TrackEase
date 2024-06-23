@@ -1,6 +1,6 @@
 import Auth from "./_components/Auth";
 import Head from 'next/head';
-import Carousel from "./_components/carousel";
+import Carousel from "./_components/Carousel";
 
 export default function Page() {
   return (
