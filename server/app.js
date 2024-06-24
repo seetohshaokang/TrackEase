@@ -23,6 +23,10 @@ const corsOptions = {
 app.use(cors(corsOptions)); // limit the links later
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.json("Server is up and running!");
+});
+
 app.use("/api/tasks", taskRoutes);
 app.use("/api/events", eventRoutes);
 //app.use("/api/auth", authRoutes);
