@@ -11,7 +11,6 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "http://localhost:8000",
-    "https://track-ease-api.vercel.app",
     "https://track-ease-mauve.vercel.app",
   ],
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
