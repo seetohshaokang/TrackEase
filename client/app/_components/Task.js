@@ -31,7 +31,7 @@ export default function Task({ task, onTaskChange }) {
     const updatedTask = { title, deadline, remarks };
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/tasks/updatetask/${task._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/updatetask/${task._id}`,
         {
           method: "PUT",
           headers: {
