@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = require("./app");
-const dotenv = require("dotenv").config({ path: "../config.env" });
+const dotenv = require("dotenv").config({ path: "../.env" });
 
 const port = process.env.PORT || 8000;
 const DATABASE_URL = process.env.DATABASE_URL.replace(
