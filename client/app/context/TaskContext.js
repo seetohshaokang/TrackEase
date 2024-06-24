@@ -11,9 +11,12 @@ export const TasksProvider = ({ children }) => {
     const token = localStorage.getItem("firebaseToken");
     console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
     try {
-      const response = await fetch(`http://localhost:8000/api/tasks/tasklist`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `${process.env.API_URL}/api/tasks/tasklist`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const data = await response.json();
       if (!response.ok) {
         throw new Error(

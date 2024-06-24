@@ -18,7 +18,7 @@ function TaskForm() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/tasks/addtask`, {
+      const response = await fetch(`${process.env.API_URL}/api/tasks/addtask`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

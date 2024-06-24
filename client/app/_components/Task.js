@@ -11,7 +11,7 @@ export default function Task({ task, onTaskChange }) {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:8000/api/tasks/deletetask/${task._id}`,
+        `${process.env.API_URL}/api/tasks/deletetask/${task._id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -31,7 +31,7 @@ export default function Task({ task, onTaskChange }) {
     const updatedTask = { title, deadline, remarks };
     try {
       const response = await fetch(
-        `http://localhost:8000/api/tasks/updatetask/${task._id}`,
+        `${process.env.API_URL}/api/tasks/updatetask/${task._id}`,
         {
           method: "PUT",
           headers: {

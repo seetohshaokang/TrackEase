@@ -38,8 +38,8 @@ function EventForm({ event = {}, method = "POST", onSuccess }) {
 
     const url =
       method === "POST"
-        ? "http://localhost:8000/api/events/add-event"
-        : `http://localhost:8000/api/events/update-event/${event.id}`;
+        ? `${process.env.API_URL}/api/events/add-event`
+        : `${process.env.API_URL}/api/events/update-event/${event.id}`;
 
     fetch(url, {
       method: method,
