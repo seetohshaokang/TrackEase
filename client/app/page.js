@@ -1,6 +1,10 @@
 import Auth from "./_components/Auth";
 import Head from 'next/head';
+<<<<<<< HEAD
 import Carousel from "./_components/carousel";
+=======
+import Carousel from "./_components/Carousel";
+>>>>>>> origin/main
 
 export default function Page() {
   return (

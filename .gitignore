@@ -3,4 +3,8 @@
 /server/package-lock.json
 
 # Server .env
+<<<<<<< HEAD
 config.env
+=======
+.env
+>>>>>>> origin/main

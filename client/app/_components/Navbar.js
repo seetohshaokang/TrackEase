@@ -5,7 +5,11 @@ import Link from "next/link";
 function Navbar() {
   return (
     <nav className="fixed w-20 h-screen p-4 text-custom-blue border-r-2 border-custom-blue shadow">
+<<<<<<< HEAD
       <ul class="space-y-4">
+=======
+      <ul className="space-y-4">
+>>>>>>> origin/main
         <li className="tooltip tooltip-right" data-tip="Home">
           <Link href="/">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-12">

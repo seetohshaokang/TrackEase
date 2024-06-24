@@ -10,7 +10,13 @@ const app = express();
 const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization", "Google-Token"],
   credentials: true,
+<<<<<<< HEAD
   origin: "*",
+=======
+
+  origin: ["http://localhost:3000", "http://localhost:8000", "https://track-ease-api.vercel.app"],
+
+>>>>>>> origin/main
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
 };
 
