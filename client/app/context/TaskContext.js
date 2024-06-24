@@ -10,6 +10,9 @@ export const TasksProvider = ({ children }) => {
   const fetchTasks = useCallback(async () => {
     const token = localStorage.getItem("firebaseToken");
     console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
+
+    console.log(`${process.env.API_URL}`);
+
     try {
       const response = await fetch(
         `${process.env.API_URL}/api/tasks/tasklist`,
