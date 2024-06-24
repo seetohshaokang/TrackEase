@@ -5,4 +5,4 @@
 # Server .env
 .env
 
-/config/firebaseAdminsdk.json
+/server/config/firebaseAdminsdk.json
