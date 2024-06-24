@@ -2,8 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const taskRoutes = require("./routes/taskRoutes");
 const eventRoutes = require("./routes/eventRoutes");
-const { credential } = require("firebase-admin");
-//const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
