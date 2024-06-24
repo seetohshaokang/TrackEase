@@ -15,7 +15,7 @@ export const TasksProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/tasks/tasklist`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/tasklist`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
