@@ -1,0 +1,6 @@
+# Dependency modules
+/server/node_modules
+/server/package-lock.json
+
+# Server .env
+config.env
