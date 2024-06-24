@@ -11,7 +11,7 @@ export const TasksProvider = ({ children }) => {
     const token = localStorage.getItem("firebaseToken");
     console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
 
-    console.log(`${process.env.API_URL}`);
+    console.log(`${process.env.NEXT_PUBLIC_API_URL}`);
 
     try {
       const response = await fetch(
