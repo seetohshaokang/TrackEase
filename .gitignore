@@ -3,4 +3,4 @@
 /server/package-lock.json
 
 # Server .env
-config.env
+.env
