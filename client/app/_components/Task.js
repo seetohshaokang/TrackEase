@@ -11,11 +11,10 @@ export default function Task({ task, onTaskChange }) {
     const token = localStorage.getItem("firebaseToken");
     try {
       const response = await fetch(
-        `${process.env.API_URL}/api/tasks/deletetask/${task._id}`,
+        `${process.env.NEXT_PUBLIC_API_UR}/api/tasks/deletetask/${task._id}`,
         {
           method: "DELETE",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
