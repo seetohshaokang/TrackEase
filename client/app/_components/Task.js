@@ -14,7 +14,10 @@ export default function Task({ task, onTaskChange }) {
         `${process.env.API_URL}/api/tasks/deletetask/${task._id}`,
         {
           method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (!response.ok) {
