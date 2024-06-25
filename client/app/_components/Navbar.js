@@ -1,20 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 function Navbar() {
   return (
-    <nav className="fixed w-20 h-screen p-4 text-custom-blue border-r-2 border-custom-blue shadow">
-<<<<<<< HEAD
-      <ul class="space-y-4">
-=======
+    <nav className="fixed w-20 h-screen p-4 text-custom-dark-green border-r-2 border-custom-dark-green shadow">
       <ul className="space-y-4">
->>>>>>> origin/main
         <li className="tooltip tooltip-right" data-tip="Home">
           <Link href="/">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-12">
-  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-</svg>
+          <Image src="/trackease-navbar-logo.png" width={64} height={64} />
           </Link>
         </li>
         <li className="tooltip tooltip-right" data-tip="Tasks">
@@ -24,8 +19,8 @@ function Navbar() {
 </svg>
           </Link>
         </li>
-        <li className="tooltip tooltip-right" data-tip="Calendar (In progress)">
-          <Link href="/">
+        <li className="tooltip tooltip-right" data-tip="Event Calendar">
+          <Link href="/events">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-12">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
 </svg>
@@ -37,9 +32,6 @@ function Navbar() {
   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
 </svg>
           </Link>
-        </li>
-        <li>
-          <Link href="/events">Events</Link>
         </li>
       </ul>
     </nav>
