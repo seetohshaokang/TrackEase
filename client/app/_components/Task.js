@@ -8,7 +8,7 @@ export default function Task({ task, onTaskChange }) {
 
   async function handleDelete() {
     console.log(task);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("firebaseToken");
     try {
       const response = await fetch(
         `${process.env.API_URL}/api/tasks/deletetask/${task._id}`,
@@ -27,7 +27,7 @@ export default function Task({ task, onTaskChange }) {
   }
 
   async function handleUpdate() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("firebaseToken");
     const updatedTask = { title, deadline, remarks };
     try {
       const response = await fetch(
