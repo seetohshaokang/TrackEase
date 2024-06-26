@@ -4,9 +4,8 @@ import { getIdToken } from "firebase/auth";
 import { useEffect, useState } from "react";
 import EventForm from "../_components/EventForm";
 import EventList from "../_components/EventList";
-import { auth } from "../_firebase/firebaseConfig";
 import Navbar from "../_components/Navbar";
-
+import { auth } from "../_firebase/firebaseConfig";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -61,11 +60,11 @@ export default function EventsPage() {
   return (
     <div>
       <Navbar />
-    <div className="px-40">
-      <h1>Events Page</h1>
-      <EventForm onSuccess={(event) => setEvents([...events, event])} />
-      <EventList events={events} setEvents={setEvents} />
-    </div>
+      <div className="px-40">
+        <h1>Events Page</h1>
+        <EventForm onSuccess={(event) => setEvents([...events, event])} />
+        <EventList events={events} setEvents={setEvents} />
+      </div>
     </div>
   );
 }
