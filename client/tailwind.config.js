@@ -17,6 +17,7 @@ module.exports = {
       }, colors: {
         'custom-cream': '#d3d9d4',
         'custom-blue': '#124e66',
+        'custom-dark-green': '#066840',
       }
     },
   },
