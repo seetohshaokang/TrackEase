@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@media only screen and (max-width: 1024px) {
+  body {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .mobile-warning {
+    display: none;
+  }
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
