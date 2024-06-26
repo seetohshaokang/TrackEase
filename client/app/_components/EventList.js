@@ -9,7 +9,7 @@ function EventList({ events, setEvents }) {
       return;
     }
 
-    fetch(`http://localhost:8000/api/events/delete-event/${id}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/delete-event/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

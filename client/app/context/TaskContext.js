@@ -10,10 +10,19 @@ export const TasksProvider = ({ children }) => {
   const fetchTasks = useCallback(async () => {
     const token = localStorage.getItem("firebaseToken");
     console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
+
+    console.log(`${process.env.NEXT_PUBLIC_API_URL}`);
+
     try {
-      const response = await fetch(`http://localhost:8000/api/tasks/tasklist`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/tasklist`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await response.json();
       if (!response.ok) {
         throw new Error(

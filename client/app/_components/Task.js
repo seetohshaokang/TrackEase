@@ -8,13 +8,15 @@ export default function Task({ task, onTaskChange }) {
 
   async function handleDelete() {
     console.log(task);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("firebaseToken");
     try {
       const response = await fetch(
-        `http://localhost:8000/api/tasks/deletetask/${task._id}`,
+        `${process.env.NEXT_PUBLIC_API_UR}/api/tasks/deletetask/${task._id}`,
         {
           method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (!response.ok) {
@@ -27,11 +29,11 @@ export default function Task({ task, onTaskChange }) {
   }
 
   async function handleUpdate() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("firebaseToken");
     const updatedTask = { title, deadline, remarks };
     try {
       const response = await fetch(
-        `http://localhost:8000/api/tasks/updatetask/${task._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/updatetask/${task._id}`,
         {
           method: "PUT",
           headers: {

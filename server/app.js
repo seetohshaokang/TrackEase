@@ -2,21 +2,18 @@ const express = require("express");
 const cors = require("cors");
 const taskRoutes = require("./routes/taskRoutes");
 const eventRoutes = require("./routes/eventRoutes");
-const { credential } = require("firebase-admin");
-//const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
 const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization", "Google-Token"],
   credentials: true,
-
   origin: [
     "http://localhost:3000",
     "http://localhost:8000",
-    "https://track-ease-api.vercel.app",
+    "https://track-ease-mauve.vercel.app",
+    "https://trackease-api.onrender.com",
   ],
-
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
 };
 
