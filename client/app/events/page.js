@@ -32,7 +32,7 @@ export default function EventsPage() {
         }
 
         const response = await fetch(
-          "http://localhost:8000/api/events/get-events",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/events/get-events`,
           {
             headers: {
               Authorization: `Bearer ${firebaseToken}`,
