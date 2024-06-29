@@ -26,7 +26,7 @@ const MediaQuery = ({ children }) => {
           {children}
         </div>
       ) : (
-        <div className="mobile-warning flex items-center justify-center h-screen">
+        <div className="mobile-warning flex items-center justify-center text-center h-screen">
           <p className='font-bold'>This application is best optimised on desktop/laptop screens :)</p>
         </div>
       )}

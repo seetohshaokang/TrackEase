@@ -6,11 +6,13 @@ import TaskList from "../_components/TaskList";
 import BookmarkList from "../_components/BookmarkList";
 import { TasksProvider } from "../context/TaskContext";
 import Navbar from "../_components/Navbar";
+import MediaQuery from "../_components/MediaQuery";
 
 export default function TaskPage() {
   const [showForm, setShowForm] = useState(false);
 
   return (
+    <MediaQuery>
     <div>
       <Navbar />
       <div className="flex flex-row pl-28 pr-10 pt-4">
@@ -22,7 +24,7 @@ export default function TaskPage() {
           <div className=" basis-2/5 pl-4 ">
             <div className="flex flex-col ">
               <button
-                className="btn btn-success btn-lg text-white mb-4 w-2/5 mx-auto"
+                className="btn btn-success btn-lg text-white mb-4 w-2/5 mx-auto shadow-md"
                 onClick={() => setShowForm(true)}
               >
                 Add Task
@@ -35,5 +37,6 @@ export default function TaskPage() {
         </TasksProvider>
       </div>
     </div>
+    </MediaQuery>
   );
 }
