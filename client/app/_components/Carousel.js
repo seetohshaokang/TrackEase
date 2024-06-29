@@ -1,34 +1,54 @@
+import CarouselFeatureOne from "./CarouselFeatureOne";
+import CarouselFeatureTwo from "./CarouselFeatureTwo";
+
 export default function Carousel() {
     return (
-        <div className="carousel w-96 h-96 md:w-1/2 md:h-80 lg:w-1/2 lg:h-96">
+      <div>
+
+      <h1 className="flex justify-center text-4xl font-bold text-custom-blue pb-4">Features</h1>
+
+      <div className="flex space-x-8">
+
+        <div className="carousel w-96 h-80 rounded-lg">
   <div id="slide1" className="carousel-item relative w-full">
-    <img src="https://mscmarketing.nus.edu.sg/wp-content/uploads/sites/114/2023/03/NUSBIZ_original-1024x586.jpg" className="w-full" />
-    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-      <a href="#slide4" className="btn btn-circle">❮</a> 
+    <CarouselFeatureOne />    
+      <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+      <a href="#slide1" className="btn btn-circle">❮</a> 
       <a href="#slide2" className="btn btn-circle">❯</a>
     </div>
   </div> 
   <div id="slide2" className="carousel-item relative w-full">
-    <img src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.jpg" className="w-full" />
+    <video autoPlay loop muted className="w-full h-full object-cover">
+      <source src="/testvideo.mp4" />
+      </video >
     <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
       <a href="#slide1" className="btn btn-circle">❮</a> 
-      <a href="#slide3" className="btn btn-circle">❯</a>
+      <a href="#slide2" className="btn btn-circle">❯</a>
     </div>
   </div> 
+</div>
+
+<div className="carousel w-96 h-80 rounded-lg">
   <div id="slide3" className="carousel-item relative w-full">
-    <img src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.jpg" className="w-full" />
-    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-      <a href="#slide2" className="btn btn-circle">❮</a> 
+    <CarouselFeatureTwo />    
+      <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+      <a href="#slide3" className="btn btn-circle">❮</a> 
       <a href="#slide4" className="btn btn-circle">❯</a>
     </div>
   </div> 
   <div id="slide4" className="carousel-item relative w-full">
-    <img src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.jpg" className="w-full" />
+    <video autoPlay loop muted className="w-full h-full object-cover">
+      <source src="/testvideo.mp4" />
+      </video >
     <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
       <a href="#slide3" className="btn btn-circle">❮</a> 
-      <a href="#slide1" className="btn btn-circle">❯</a>
+      <a href="#slide4" className="btn btn-circle">❯</a>
     </div>
-  </div>
+  </div> 
+</div>
+
+</div>
+
 </div>
     );
 }
