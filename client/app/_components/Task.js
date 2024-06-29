@@ -2,16 +2,16 @@ import { useState } from "react";
 
 export default function Task({ task, onTaskChange }) {
   const [editMode, setEditMode] = useState(false);
-  const [title, setTitle] = useState(task.title);
-  const [deadline, setDeadline] = useState(task.deadline);
-  const [remarks, setRemarks] = useState(task.remarks);
+  const [title, setTitle] = useState(task.title || "");
+  const [deadline, setDeadline] = useState(task.deadline || "");
+  const [remarks, setRemarks] = useState(task.remarks || "");
 
   async function handleDelete() {
     console.log(task);
     const token = localStorage.getItem("firebaseToken");
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_UR}/api/tasks/deletetask/${task._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/deletetask/${task._id}`,
         {
           method: "DELETE",
           headers: {
@@ -52,28 +52,43 @@ export default function Task({ task, onTaskChange }) {
       console.error("Error updating task", error);
     }
   }
+  const formattedDeadline = deadline
+    ? new Date(deadline).toLocaleDateString()
+    : "No deadline";
 
   return (
     <div key={task._id} className="card w-96 bg-base-100 shadow-xl">
       {editMode ? (
         <>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="input input-bordered"
-          />
-          <input
-            type="date"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-            className="input input-bordered"
-          />
-          <textarea
-            value={remarks}
-            onChange={(e) => setRemarks(e.target.value)}
-            className="text-area textarea-bordered"
-          ></textarea>
+          <label>
+            Title
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="input input-bordered"
+              aria-label="Title"
+            />
+          </label>
+          <label>
+            Deadline
+            <input
+              type="date"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              className="input input-bordered"
+              aria-label="Deadline"
+            />
+          </label>
+          <label>
+            Remarks
+            <textarea
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
+              className="text-area textarea-bordered"
+              aria-label="Remarks"
+            ></textarea>
+          </label>
           <button onClick={handleUpdate} className="btn btn-success">
             Save
           </button>
@@ -83,8 +98,8 @@ export default function Task({ task, onTaskChange }) {
         </>
       ) : (
         <>
-          <h3>{task.title}</h3>
-          <p>Deadline: {new Date(task.deadline).toLocaleDateString()}</p>
+          <p>Task: {task.title}</p>
+          <p>Deadline: {formattedDeadline}</p>
           <p>Remarks: {task.remarks}</p>
           <button onClick={() => setEditMode(true)} className="btn btn-primary">
             Edit

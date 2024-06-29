@@ -21,7 +21,7 @@ function Event({ event, handleDelete }) {
       </div>
       <div>
         <a href={event.htmlLink} target="_blank" rel="noopener noreferrer">
-          View on Google calendar
+          View on Google Calendar
         </a>
       </div>
       <button onClick={() => handleDelete(event.id)}>Delete</button>
