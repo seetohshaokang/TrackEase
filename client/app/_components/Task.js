@@ -4,9 +4,9 @@ import { TaskContext } from "../context/TaskContext";
 export default function Task({ task, onTaskChange }) {
   const { updateTaskStatus } = useContext(TaskContext);
   const [editMode, setEditMode] = useState(false);
-  const [title, setTitle] = useState(task.title);
-  const [deadline, setDeadline] = useState(task.deadline);
-  const [remarks, setRemarks] = useState(task.remarks);
+  const [title, setTitle] = useState(task.title || "");
+  const [deadline, setDeadline] = useState(task.deadline || "");
+  const [remarks, setRemarks] = useState(task.remarks || "");
 
   async function handleDelete() {
     const token = localStorage.getItem("firebaseToken");
@@ -53,6 +53,9 @@ export default function Task({ task, onTaskChange }) {
       console.error("Error updating task", error);
     }
   }
+  const formattedDeadline = deadline
+    ? new Date(deadline).toLocaleDateString()
+    : "No deadline";
 
   async function handleBookmark() {
     const token = localStorage.getItem("firebaseToken");
@@ -126,6 +129,7 @@ export default function Task({ task, onTaskChange }) {
         </>
       ) : (
         <>
+
         <div className="flex flex-row px-1">
           <div className="flex-col">
           <h3 className="text-xl font-bold">{task.title}</h3>

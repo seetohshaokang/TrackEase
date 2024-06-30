@@ -25,6 +25,8 @@ exports.createTask = async (req, res) => {
   console.log("New task created");
   try {
     const savedTask = await newTask.save();
+    console.log(savedTask._id);
+
     res.status(201).json(savedTask);
   } catch (error) {
     res.status(400).send({ message: "Error saving task", error: error.message });
