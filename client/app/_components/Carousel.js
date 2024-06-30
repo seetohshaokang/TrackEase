@@ -19,7 +19,7 @@ export default function Carousel() {
   </div> 
   <div id="slide2" className="carousel-item relative w-full">
     <video autoPlay loop muted className="w-full h-full object-cover">
-      <source src="/testvideo.mp4" />
+      <source src="/taskfeaturevideo.mp4" />
       </video >
     <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
       <a href="#slide1" className="btn btn-circle">❮</a> 
@@ -38,7 +38,7 @@ export default function Carousel() {
   </div> 
   <div id="slide4" className="carousel-item relative w-full">
     <video autoPlay loop muted className="w-full h-full object-cover">
-      <source src="/testvideo.mp4" />
+      <source src="/eventfeaturevideo.mp4" />
       </video >
     <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
       <a href="#slide3" className="btn btn-circle">❮</a> 

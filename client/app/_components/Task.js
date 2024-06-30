@@ -159,7 +159,7 @@ export default function Task({ task, onTaskChange }) {
 )}
           </button>
           <button onClick={handleComplete} className="btn btn-success text-white btn-sm">
-            {task.completed ? "Undo Complete" : "Completed"}
+            {task.completed ? "Uncomplete" : "Completed"}
           </button>
           </div>
           </div>
