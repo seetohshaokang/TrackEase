@@ -1,35 +1,62 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../context/TaskContext";
 import Task from "./Task";
 
 function TaskList() {
   const { tasks, fetchTasks } = useContext(TaskContext);
+  const [activeTab, setActiveTab] = useState("current");
 
   useEffect(() => {
     if (fetchTasks) {
-      fetchTasks() // Ensure tasks are fetched on component mount
-        .then(() => console.log("Tasks fetched:", tasks));
+      fetchTasks().then(() => console.log("Tasks fetched:", tasks));
     }
   }, [fetchTasks]);
 
   const handleTaskChange = () => {
-    fetchTasks(); // Refetch tasks from the server to get updated list
+    fetchTasks();
   };
+
+  const filteredTasks = tasks.filter((task) => {
+    if (activeTab === "current") {
+      return !task.completed;
+    }
+    if (activeTab === "completed") {
+      return task.completed;
+    }
+    return true;
+  });
 
   console.log("Tasks:", tasks);
 
   return (
-    <div className="flex flex-col gap-4">
-      {tasks.length === 0 ? (
-        <div className="alert alert-warning">No tasks found</div>
-      ) : (
-        tasks.map((task) => (
-          <Task key={task._id} task={task} onTaskChange={handleTaskChange} />
-        ))
-      )}
+    <div>
+      <div className="flex justify-around mb-4">
+        <button
+          className={`py-2 px-4 rounded-lg text-xl ${activeTab === "current" ? "bg-gray-300" : "bg-gray-100"}`}
+          onClick={() => setActiveTab("current")}
+        >
+          Current
+        </button>
+        <button
+          className={`py-2 px-4 rounded-lg text-xl ${activeTab === "completed" ? "bg-gray-300" : "bg-gray-100"}`}
+          onClick={() => setActiveTab("completed")}
+        >
+          Completed
+        </button>
+      </div>
+      <div className="flex flex-col gap-4">
+        {filteredTasks.length === 0 ? (
+          <div className="alert">No tasks yet</div>
+        ) : (
+          filteredTasks.map((task) => (
+            <Task key={task._id} task={task} onTaskChange={handleTaskChange} />
+          ))
+        )}
+      </div>
     </div>
   );
 }
+
 export default TaskList;

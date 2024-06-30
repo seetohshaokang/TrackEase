@@ -1,14 +1,16 @@
 import Auth from "./_components/Auth";
 import Carousel from "./_components/Carousel";
 import Image from "next/image";
+import MediaQuery from "./_components/MediaQuery";
 
 export default function Page() {
   return (
-    <div>
+    <MediaQuery>
+    <div className="">
         <main className="flex flex-col items-center justify-center min-h-screen space-y-8" style={{ backgroundImage: "url('/green-background.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
         <div className="p-10 text-center max-w-md">
           <div className="flex items-center justify-center p-4">
-          <Image src="/trackease-navbar-logo.png" width={88} height={88} />
+          <Image src="/trackease-navbar-logo.png" alt="trackease logo" width={88} height={88}/>
           </div>
           <h1 className="text-3xl font-bold mb-4 text-custom-blue">Task tracking made easy.</h1>
           <p className="text-custom-blue">
@@ -16,8 +18,11 @@ export default function Page() {
           </p>
           <Auth />
         </div>
-        <Carousel className="my-1"/>
+        <div className="flex flex-row justify-center">        
+          <Carousel className="my-1 "/>
+        </div>
       </main>
     </div>
+    </MediaQuery>
   );
 }

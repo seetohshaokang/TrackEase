@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function EventForm({ event = {}, method = "POST", onSuccess }) {
+function EventForm({ event = {}, method = "POST", onSuccess, onClose }) {
   const [formData, setFormData] = useState({
     summary: event.summary || "",
     location: event.location || "",
@@ -19,11 +19,7 @@ function EventForm({ event = {}, method = "POST", onSuccess }) {
     const firebaseToken = localStorage.getItem("firebaseToken");
     const googleAccessToken = localStorage.getItem("googleAccessToken");
 
-    if (!firebaseToken) {
-      console.error("No token found in localStorage");
-      return;
-    }
-    if (!googleAccessToken) {
+    if (!firebaseToken || !googleAccessToken) {
       console.error("No token found in localStorage");
       return;
     }
@@ -56,49 +52,74 @@ function EventForm({ event = {}, method = "POST", onSuccess }) {
         }
         return response.json();
       })
-      .then((result) => onSuccess(result))
+      .then((result) => {
+        onSuccess(result);
+        onClose(); // Close the form after successful submission
+      })
       .catch((error) => {
         console.error("Error submitting form", error);
       });
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="summary"
-        value={formData.summary}
-        onChange={handleChange}
-        placeholder="Summary"
-      />
-      <input
-        type="text"
-        name="location"
-        value={formData.location}
-        onChange={handleChange}
-        placeholder="Location"
-      />
-      <input
-        type="text"
-        name="description"
-        value={formData.description}
-        onChange={handleChange}
-        placeholder="Description"
-      />
-      <input
-        type="datetime-local"
-        name="startDateTime"
-        value={formData.startDateTime}
-        onChange={handleChange}
-      />
-      <input
-        type="datetime-local"
-        name="endDateTime"
-        value={formData.endDateTime}
-        onChange={handleChange}
-      />
-      <button type="submit">Add Event</button>
-    </form>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md">
+        <form onSubmit={handleSubmit} className="form-control">
+          <input
+            type="text"
+            name="summary"
+            value={formData.summary}
+            onChange={handleChange}
+            placeholder="Summary"
+            className="input input-bordered w-full mb-2"
+          />
+          <input
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            placeholder="Location"
+            className="input input-bordered w-full mb-2"
+          />
+          <input
+            type="text"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Description"
+            className="input input-bordered w-full mb-2"
+          />
+          <label htmlFor="startDateTime" className="block text-gray-800">
+    Start:
+  </label>
+          <input
+            type="datetime-local"
+            name="startDateTime"
+            value={formData.startDateTime}
+            onChange={handleChange}
+            className="input input-bordered w-full mb-2"
+          />
+          <label htmlFor="endDateTime" className="block text-gray-800">
+    End:
+  </label>
+          <input
+            type="datetime-local"
+            name="endDateTime"
+            value={formData.endDateTime}
+            onChange={handleChange}
+            className="input input-bordered w-full mb-2"
+          />
+          <div className="flex justify-between mt-3">
+            <button type="submit" className="btn btn-success text-white">
+              {method === "POST" ? "Add Event" : "Update Event"}
+            </button>
+            <button type="button" className="btn btn-gray-300" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

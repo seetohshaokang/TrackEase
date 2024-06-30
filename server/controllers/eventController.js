@@ -22,19 +22,16 @@ function setGoogleAPICredentials(req) {
 exports.getEvents = async (req, res) => {
   try {
     console.log("Getting events");
-    console.log(req.headers);
     setGoogleAPICredentials(req);
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
 
-    console.log(
-      "Making request to Google Calendar API with token:",
-      oauth2Client.credentials
-    );
-
     const response = await calendar.events.list({
       calendarId: "primary",
-      maxResults: 15,
+      maxResults: 2500, // Increase max results if needed
+      singleEvents: true,
+      orderBy: 'startTime',
     });
+
     console.log("Events retrieved:", response.data.items);
     res.json(response.data.items);
   } catch (error) {

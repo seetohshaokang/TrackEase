@@ -7,7 +7,6 @@ exports.getTasks = async (req, res) => {
     if (tasks.length === 0) {
       return res.status(404).json({ message: "No tasks found" });
     }
-    // console.log("tasks", found);
     res.json(tasks);
   } catch (error) {
     res.status(500).send("Error retrieving tasks");
@@ -15,7 +14,6 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.createTask = async (req, res) => {
-  // console.log(req);
   const { title, deadline, remarks, status } = req.body;
   const newTask = new Task({
     title,
@@ -28,11 +26,10 @@ exports.createTask = async (req, res) => {
   try {
     const savedTask = await newTask.save();
     console.log(savedTask._id);
+
     res.status(201).json(savedTask);
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error saving task", error: error.message });
+    res.status(400).send({ message: "Error saving task", error: error.message });
   }
 };
 
@@ -44,16 +41,12 @@ exports.updateTask = async (req, res) => {
       { title, deadline, remarks, status },
       { new: true }
     );
-    console.log(updatedTask);
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
-
     res.json(updatedTask);
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error updating task", error: error.message });
+    res.status(400).send({ message: "Error updating task", error: error.message });
   }
 };
 
@@ -65,8 +58,36 @@ exports.deleteTask = async (req, res) => {
     }
     res.send("Task deleted");
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error deleting task", error: error.message });
+    res.status(400).send({ message: "Error deleting task", error: error.message });
+  }
+};
+
+// New method to bookmark a task
+exports.bookmarkTask = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+    task.bookmarked = !task.bookmarked;
+    await task.save();
+    res.json(task);
+  } catch (error) {
+    res.status(400).send({ message: "Error bookmarking task", error: error.message });
+  }
+};
+
+// New method to mark a task as completed
+exports.completeTask = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+    task.completed = !task.completed;
+    await task.save();
+    res.json(task);
+  } catch (error) {
+    res.status(400).send({ message: "Error marking task as completed", error: error.message });
   }
 };

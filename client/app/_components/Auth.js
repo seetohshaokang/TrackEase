@@ -9,6 +9,21 @@ import {
 import { useRouter } from "next/navigation";
 import { auth } from "../_firebase/firebaseConfig";
 
+export function signOutUser() {
+  return signOut(auth)
+    .then(() => {
+      localStorage.removeItem("firebaseToken"); // Remove firebase token
+      console.log("removed firebaseToken");
+      localStorage.removeItem("googleAccessToken");
+      console.log("removed googleAccessToken");
+      alert("You have successfully logged out!"); // Alert user of successful logout
+    })
+    .catch((error) => {
+      console.error("Sign-out error:", error);
+      alert("Failed to sign out.");
+    });
+}
+
 function Auth() {
   const router = useRouter();
 
@@ -33,20 +48,6 @@ function Auth() {
       router.push("/tasks");
     } catch (error) {
       console.error("Error during sign-in:", error);
-    }
-  }
-
-  async function signOutUser() {
-    try {
-      await signOut(auth);
-      localStorage.removeItem("firebaseToken"); // Remove firebase token
-      console.log("removed firebaseToken");
-      localStorage.removeItem("googleAccessToken");
-      console.log("removed googleAccessToken");
-      alert("You have successfully logged out!"); // Alert user of successful logout
-    } catch (error) {
-      console.error("Sign-out error:", error);
-      alert("Failed to sign out.");
     }
   }
 
