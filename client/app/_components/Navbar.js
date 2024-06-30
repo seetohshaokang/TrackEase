@@ -2,10 +2,19 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { signOutUser } from "./Auth";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOutUser();
+    router.push("/");
+  };
+
   return (
-    <nav className="fixed w-20 h-screen p-4 text-custom-dark-green border-r-2 border-custom-dark-green shadow">
+    <nav className="fixed w-20 h-screen p-4 text-custom-dark-green border-r-2 border-custom-dark-green shadow flex flex-col justify-between">
       <ul className="space-y-4">
         <li className="tooltip tooltip-right" data-tip="Home">
           <Link href="/">
@@ -30,7 +39,7 @@ function Navbar() {
             </svg>
           </Link>
         </li>
-        <li className="tooltip tooltip-right z-50" data-tip="Event Calendar">
+        <li className="tooltip tooltip-right" data-tip="Event Calendar">
           <Link href="/events">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
   <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
@@ -38,26 +47,10 @@ function Navbar() {
 
           </Link>
         </li>
-        <li className="tooltip tooltip-right" data-tip="Log out (Not in use)">
-          <Link href="/login">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-12"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
-              />
-            </svg>
-          </Link>
-        </li>
       </ul>
+      <button className="btn btn-md btn-error btn-outline mt-auto" onClick={handleSignOut}>Sign out</button>
     </nav>
   );
 }
+
 export default Navbar;
