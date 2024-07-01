@@ -7,22 +7,24 @@ export const TaskContext = createContext();
 export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
 
-  const fetchTasks = useCallback(async () => {
+  const fetchTasks = useCallback(async (searchTerm = "") => {
     const token = localStorage.getItem("firebaseToken");
-    console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
+    const url = searchTerm
+      ? `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/api/tasks/searchtasks?search=${encodeURIComponent(searchTerm)}`
+      : `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/tasklist`;
 
-    console.log(`${process.env.NEXT_PUBLIC_API_URL}`);
+    console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
+    console.log("API URL:", url);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/tasklist`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
       if (!response.ok) {
         throw new Error(
@@ -32,6 +34,7 @@ export const TasksProvider = ({ children }) => {
         );
       }
       setTasks(data);
+      console.log("Tasks fetched successfully:", data);
     } catch (error) {
       console.error("Error fetching tasks", error);
     }
@@ -84,11 +87,13 @@ export const TasksProvider = ({ children }) => {
 
   // Automatically fetch tasks when component mounts
   useEffect(() => {
-    fetchTasks();
+    fetchTasks().then(() => console.log("Initial fetch of tasks"));
   }, [fetchTasks]);
 
   return (
-    <TaskContext.Provider value={{ tasks, fetchTasks, addTask, updateTaskStatus }}>
+    <TaskContext.Provider
+      value={{ tasks, fetchTasks, addTask, updateTaskStatus }}
+    >
       {children}
     </TaskContext.Provider>
   );

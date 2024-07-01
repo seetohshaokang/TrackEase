@@ -12,4 +12,6 @@ router.delete("/deletetask/:id", checkFirebaseAuth, taskController.deleteTask);
 router.put("/bookmark/:id", checkFirebaseAuth, taskController.bookmarkTask);
 router.put("/complete/:id", checkFirebaseAuth, taskController.completeTask);
 
+router.get("/searchtasks", checkFirebaseAuth, taskController.searchTasks);
+
 module.exports = router;
