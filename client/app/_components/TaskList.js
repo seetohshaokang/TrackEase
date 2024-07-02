@@ -3,22 +3,21 @@
 import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../context/TaskContext";
 import Task from "./Task";
+import TaskSearchbar from "./TaskSearchBar";
 
 function TaskList() {
   const { tasks, fetchTasks } = useContext(TaskContext);
   const [activeTab, setActiveTab] = useState("current");
-  const [searchTerm, setSearchTerm] = useState("");
+  //const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (fetchTasks) {
-      fetchTasks(searchTerm).then(() => console.log("Tasks fetched:", tasks));
+      fetchTasks().then(() => console.log("Tasks fetched:", tasks));
     }
-  }, [searchTerm, fetchTasks, tasks]);
+  }, [fetchTasks]);
 
   const handleTaskChange = () => {
-    fetchTasks(searchTerm).then(() =>
-      console.log("Tasks refetched after update")
-    );
+    fetchTasks().then(() => console.log("Tasks refetched after update"));
   };
 
   const filteredTasks = tasks.filter((task) => {
@@ -35,13 +34,7 @@ function TaskList() {
 
   return (
     <div>
-      <input
-        type="text"
-        className="input input-bordered w-full mb-4"
-        placeholder="Search tasks..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <TaskSearchbar />
 
       <div className="flex justify-around mb-4">
         <button
