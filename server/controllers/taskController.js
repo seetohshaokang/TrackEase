@@ -15,6 +15,7 @@ exports.getTasks = async (req, res) => {
 
 exports.createTask = async (req, res) => {
   const { title, deadline, remarks, status } = req.body;
+
   const newTask = new Task({
     title,
     deadline,
@@ -23,6 +24,7 @@ exports.createTask = async (req, res) => {
     user_id: req.user.uid,
   });
   console.log("New task created");
+
   try {
     const savedTask = await newTask.save();
     console.log(savedTask._id);
@@ -96,12 +98,10 @@ exports.completeTask = async (req, res) => {
     await task.save();
     res.json(task);
   } catch (error) {
-    res
-      .status(400)
-      .send({
-        message: "Error marking task as completed",
-        error: error.message,
-      });
+    res.status(400).send({
+      message: "Error marking task as completed",
+      error: error.message,
+    });
   }
 };
 
@@ -124,4 +124,22 @@ exports.searchTasks = async (req, res) => {
       .status(500)
       .send({ message: "Error retrieving tasks", error: error.message });
   }
+};
+
+// Middleware for checking duplicate title
+exports.checkTaskExists = async (req, res, next) => {
+  const { title } = req.body;
+  const existingTask = await Task.findOne({
+    title: title,
+    user_id: req.user.uid,
+  });
+  if (existingTask) {
+    return res
+      .status(409)
+      .json({
+        message:
+          "A task with the same title already exists, reschedule that task instead",
+      });
+  }
+  next(); // Proceed to the next middleware if no duplicate tasks is found
 };

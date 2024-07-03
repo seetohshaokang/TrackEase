@@ -30,10 +30,17 @@ function TaskForm({ onClose }) {
       );
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error creating task");
+
+        if (response.status === 409) {
+          alert(errorData.message);
+        } else {
+          throw new Error(errorData.message || "Error creating task");
+        }
+        return;
       }
-      await fetchTasks();
-      console.log("Task created successfully");
+      //await fetchTasks();
+      const savedTask = await response.json();
+      console.log("Task created successfully", savedTask);
       // Clear the form fields
       setTitle("");
       setDeadline("");
@@ -80,7 +87,7 @@ function TaskForm({ onClose }) {
         </form>
       </div>
     </div>
-  );  
+  );
 }
 
 export default TaskForm;
