@@ -15,7 +15,6 @@ exports.getTasks = async (req, res) => {
 
 exports.createTask = async (req, res) => {
   const { title, deadline, remarks, status } = req.body;
-
   const newTask = new Task({
     title,
     deadline,
@@ -24,16 +23,13 @@ exports.createTask = async (req, res) => {
     user_id: req.user.uid,
   });
   console.log("New task created");
-
   try {
     const savedTask = await newTask.save();
     console.log(savedTask._id);
 
     res.status(201).json(savedTask);
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error saving task", error: error.message });
+    res.status(400).send({ message: "Error saving task", error: error.message });
   }
 };
 
@@ -50,9 +46,7 @@ exports.updateTask = async (req, res) => {
     }
     res.json(updatedTask);
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error updating task", error: error.message });
+    res.status(400).send({ message: "Error updating task", error: error.message });
   }
 };
 
@@ -64,9 +58,7 @@ exports.deleteTask = async (req, res) => {
     }
     res.send("Task deleted");
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error deleting task", error: error.message });
+    res.status(400).send({ message: "Error deleting task", error: error.message });
   }
 };
 
@@ -81,9 +73,7 @@ exports.bookmarkTask = async (req, res) => {
     await task.save();
     res.json(task);
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error bookmarking task", error: error.message });
+    res.status(400).send({ message: "Error bookmarking task", error: error.message });
   }
 };
 
@@ -98,48 +88,6 @@ exports.completeTask = async (req, res) => {
     await task.save();
     res.json(task);
   } catch (error) {
-    res.status(400).send({
-      message: "Error marking task as completed",
-      error: error.message,
-    });
+    res.status(400).send({ message: "Error marking task as completed", error: error.message });
   }
-};
-
-exports.searchTasks = async (req, res) => {
-  const { search } = req.query;
-  try {
-    const tasks = await Task.find({
-      user_id: req.user.uid,
-      $or: [
-        { title: { $regex: search, $options: "i" } },
-        { remarks: { $regex: search, $options: "i" } },
-      ],
-    });
-    if (tasks.length === 0) {
-      return res.status(404).json({ message: "No tasks found" });
-    }
-    res.json(tasks);
-  } catch (error) {
-    res
-      .status(500)
-      .send({ message: "Error retrieving tasks", error: error.message });
-  }
-};
-
-// Middleware for checking duplicate title
-exports.checkTaskExists = async (req, res, next) => {
-  const { title } = req.body;
-  const existingTask = await Task.findOne({
-    title: title,
-    user_id: req.user.uid,
-  });
-  if (existingTask) {
-    return res
-      .status(409)
-      .json({
-        message:
-          "A task with the same title already exists, reschedule that task instead",
-      });
-  }
-  next(); // Proceed to the next middleware if no duplicate tasks is found
 };
