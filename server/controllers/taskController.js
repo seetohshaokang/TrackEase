@@ -134,12 +134,37 @@ exports.checkTaskExists = async (req, res, next) => {
     user_id: req.user.uid,
   });
   if (existingTask) {
-    return res
-      .status(409)
-      .json({
-        message:
-          "A task with the same title already exists, reschedule that task instead",
-      });
+    return res.status(409).json({
+      message:
+        "A task with the same title already exists, reschedule that task instead",
+    });
   }
   next(); // Proceed to the next middleware if no duplicate tasks is found
+};
+
+exports.getWeeklyTaskSummary = async (req, res) => {
+  const today = new Date();
+  const nextWeek = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 7
+  );
+
+  try {
+    const tasks = await Task.find({
+      user_id: req.user.uid,
+      deadline: {
+        $gte: today,
+        $lt: nextWeek,
+      },
+    })
+      .sort({ deadline: 1 })
+      .select("title deadline status remarks");
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).send({
+      message: "Error retrieving weekly task summary",
+      error: error.message,
+    });
+  }
 };
