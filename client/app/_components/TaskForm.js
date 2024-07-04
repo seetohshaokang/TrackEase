@@ -7,8 +7,7 @@ function TaskForm({ onClose }) {
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [remarks, setRemarks] = useState("");
-<<<<<<< Updated upstream
-=======
+
   const [isSubmitting, setIsSubmitting] = useState(false); // Button
   const [tags, setTags] = useState([""]);
 
@@ -29,7 +28,6 @@ function TaskForm({ onClose }) {
     const newTags = tags.filter((_, i) => i !== index);
     setTags(newTags);
   };
->>>>>>> Stashed changes
 
   async function handleSubmit(e) {
     e.preventDefault();
