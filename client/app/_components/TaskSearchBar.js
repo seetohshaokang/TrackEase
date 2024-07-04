@@ -1,12 +1,105 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { TaskContext } from "../context/TaskContext";
 
 function TaskSearchbar() {
   const { fetchTasks } = useContext(TaskContext);
   const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const inputRef = useRef(null);
+
+  // Function to fetch recent searches
+  const fetchRecentSearches = () => {
+    const token = localStorage.getItem("firebaseToken");
+    if (!token) {
+      console.error("No Firebase token found in localStorage");
+      setSuggestions([]);
+      return;
+    }
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks/recentSearches}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length === 0) {
+        } else if (Array.isArray(data)) {
+          setSuggestions(data);
+        } else {
+          console.error("Data is not an array", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching recent searches ", error);
+      });
+  };
+
+  const fetchAutocompleteSuggestions = (input) => {
+    const token = localStorage.getItem("firebaseToken");
+    if (!token) {
+      console.error("No Firebase token found in localStorage");
+      return;
+    }
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/suggestions?prefix=${input}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setSuggestions(data);
+        } else {
+          console.error("Data is not an array", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching autocomplete suggestions:", error);
+      });
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleFocus = () => {
+    fetchRecentSearches();
+    setShowSuggestions(true);
+  };
+
+  const handleInputChange = (event) => {
+    const input = event.target.value;
+    setSearchTerm(input);
+    if (input) {
+      fetchAutocompleteSuggestions(input);
+    } else {
+      fetchRecentSearches();
+    }
+  };
 
   const handleSearch = () => {
     fetchTasks(searchTerm);
+    setSuggestions([]);
+    setShowSuggestions(false);
   };
 
   const handleKeyDown = (e) => {
@@ -20,6 +113,8 @@ function TaskSearchbar() {
   const clearSearch = () => {
     setSearchTerm("");
     fetchTasks("");
+    setSuggestions([]);
+    setShowSuggestions(false);
   };
 
   return (
@@ -50,11 +145,13 @@ function TaskSearchbar() {
         </svg>
       </button>
       <input
+        ref={inputRef}
         type="text"
         className="input input-bordered w-full mb-4"
         placeholder="Search Tasks..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={handleInputChange}
+        onFocus={handleFocus}
         onKeyDown={handleKeyDown} // Listen for key down events
       />
       {searchTerm && (
@@ -74,6 +171,22 @@ function TaskSearchbar() {
             <line x1="9" y1="9" x2="15" y2="15"></line>
           </svg>
         </button>
+      )}
+      {showSuggestions && (
+        <ul className="absolute bg-white shadow-lg max-h-60 overflow-auto w-full rounded-md">
+          {suggestions.map((suggestion, index) => (
+            <li
+              key={index}
+              className="p-2 hover:bg-gray-200 cursor-pointer"
+              onClick={() => {
+                setSearchTerm(suggestion);
+                handleSearch();
+              }}
+            >
+              {suggestion}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

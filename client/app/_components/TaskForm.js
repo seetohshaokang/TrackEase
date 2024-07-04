@@ -7,6 +7,29 @@ function TaskForm({ onClose }) {
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState("");
   const [remarks, setRemarks] = useState("");
+<<<<<<< Updated upstream
+=======
+  const [isSubmitting, setIsSubmitting] = useState(false); // Button
+  const [tags, setTags] = useState([""]);
+
+  // Function to handle adding new tags
+  const handleAddTag = () => {
+    setTags([...tags, ""]);
+  };
+
+  // Function to handle changing tags
+  const handleTagChange = (value, index) => {
+    const newTags = [...tags];
+    newTags[index] = value;
+    setTags(newTags);
+  };
+
+  // Function to handle removing tags
+  const handleRemoveTag = (index) => {
+    const newTags = tags.filter((_, i) => i !== index);
+    setTags(newTags);
+  };
+>>>>>>> Stashed changes
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -76,6 +99,33 @@ function TaskForm({ onClose }) {
             placeholder="Remarks"
             className="textarea textarea-bordered w-full mt-4"
           ></textarea>
+
+          {tags.map((tag, index) => (
+            <div key={index} className="flex items-center space-x-2">
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                placeholder="Enter tag"
+                value={tag}
+                onChange={(e) => handleTagChange(e.target.value, index)}
+              />
+              <button
+                type="button"
+                className="btn btn-error"
+                onClick={() => handleRemoveTag(index)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleAddTag}
+          >
+            Add Tag
+          </button>
+
           <div className="flex justify-between mt-4">
             <button type="submit" className="btn btn-success text-white">
               Add Task
