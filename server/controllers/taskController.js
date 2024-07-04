@@ -147,17 +147,13 @@ exports.checkTaskExists = async (req, res, next) => {
     user_id: req.user.uid,
   });
   if (existingTask) {
-    return res
-      .status(409)
-      .json({
-        message:
-          "A task with the same title already exists, reschedule that task instead",
-      });
+    return res.status(409).json({
+      message:
+        "A task with the same title already exists, reschedule that task instead",
+    });
   }
   next(); // Proceed to the next middleware if no duplicate tasks is found
 };
-<<<<<<< Updated upstream
-=======
 
 exports.getWeeklyTaskSummary = async (req, res) => {
   const today = new Date();
@@ -221,12 +217,9 @@ exports.getRecentSearchs = async (req, res) => {
     res.json(recentSearches.map((item) => item.query));
   } catch (error) {
     console.error("Failed to retrieve recent searches:", error);
-    res
-      .status(500)
-      .send({
-        message: "Error retrieving recent searches,",
-        error: error.toString(),
-      });
+    res.status(500).send({
+      message: "Error retrieving recent searches,",
+      error: error.toString(),
+    });
   }
 };
->>>>>>> Stashed changes
