@@ -115,14 +115,11 @@ export default function Task({ task, onTaskChange }) {
   }
 
   return (
-<<<<<<< Updated upstream
-    <div key={task._id} className="card rounded-md w-auto bg-gray-100 shadow-md">
-=======
+
     <div
       key={task._id}
       className="card rounded-md w-auto bg-gray-100 shadow-md p-4"
     >
->>>>>>> Stashed changes
       {editMode ? (
         <>
           <input
@@ -167,20 +164,17 @@ export default function Task({ task, onTaskChange }) {
           >
             Save
           </button>
-<<<<<<< Updated upstream
-          <button onClick={() => setEditMode(false)} className="btn btn-error text-white">
-=======
+
           <button
             onClick={() => setEditMode(false)}
             className="btn btn-error text-white mt-2"
           >
->>>>>>> Stashed changes
             Cancel
           </button>
         </>
       ) : (
         <>
-<<<<<<< Updated upstream
+
 
         <div className="flex flex-row px-1">
           <div className="flex-col">
@@ -214,7 +208,7 @@ export default function Task({ task, onTaskChange }) {
             {task.completed ? "Uncomplete" : "Completed"}
           </button>
           </div>
-=======
+
           <div className="flex flex-row px-1">
             <div className="flex-col">
               <h3 className="text-xl font-bold">{task.title}</h3>
@@ -228,6 +222,7 @@ export default function Task({ task, onTaskChange }) {
                 </span>
               ))}
             </div>
+
             <div className="ml-auto flex items-center space-x-1">
               <button
                 onClick={() => setEditMode(true)}
@@ -313,7 +308,6 @@ export default function Task({ task, onTaskChange }) {
                 {task.completed ? "Uncomplete" : "Completed"}
               </button>
             </div>
->>>>>>> Stashed changes
           </div>
         </>
       )}

@@ -19,8 +19,7 @@ router.put("/complete/:id", checkFirebaseAuth, taskController.completeTask);
 
 router.get("/searchtasks", checkFirebaseAuth, taskController.searchTasks);
 
-<<<<<<< Updated upstream
-=======
+
 router.get("/suggestions", checkFirebaseAuth, taskController.getSuggestions);
 router.get(
   "/recentSearches",
@@ -34,5 +33,5 @@ router.get(
   taskController.getWeeklyTaskSummary
 );
 
->>>>>>> Stashed changes
+
 module.exports = router;

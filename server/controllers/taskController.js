@@ -223,3 +223,4 @@ exports.getRecentSearchs = async (req, res) => {
     });
   }
 };
+
