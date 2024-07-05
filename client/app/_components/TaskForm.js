@@ -8,8 +8,6 @@ function TaskForm({ onClose }) {
   const [deadline, setDeadline] = useState("");
   const [remarks, setRemarks] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [isSubmitting, setIsSubmitting] = useState(false); // Button
   const [tags, setTags] = useState([""]);
 
   // Function to handle adding new tags
@@ -49,7 +47,7 @@ function TaskForm({ onClose }) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ title, deadline, remarks }),
+          body: JSON.stringify({ title, deadline, remarks, tags }),
         }
       );
       if (!response.ok) {
@@ -63,7 +61,6 @@ function TaskForm({ onClose }) {
         }
         return;
       }
-      //await fetchTasks();
       const savedTask = await response.json();
       console.log("Task created successfully", savedTask);
       // Clear the form fields
@@ -71,6 +68,7 @@ function TaskForm({ onClose }) {
       setTitle("");
       setDeadline("");
       setRemarks("");
+      setTags([""]);
       onClose();
     } catch (error) {
       console.error("Error creating task", error);
@@ -105,7 +103,7 @@ function TaskForm({ onClose }) {
           ></textarea>
 
           {tags.map((tag, index) => (
-            <div key={index} className="flex items-center space-x-2">
+            <div key={index} className="flex items-center space-x-2 mt-2">
               <input
                 type="text"
                 className="input input-bordered w-full"
@@ -124,7 +122,7 @@ function TaskForm({ onClose }) {
           ))}
           <button
             type="button"
-            className="btn btn-secondary"
+            className="btn btn-secondary mt-2"
             onClick={handleAddTag}
           >
             Add Tag
