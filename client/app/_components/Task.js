@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { TaskContext } from "../context/TaskContext";
 import BookmarkTaskButton from "./BookmarkTaskButton";
+import CompleteTaskButton from "./CompleteTaskButton";
 import DeleteTaskButton from "./DeleteTaskButton";
 import UpdateTaskForm from "./UpdateTaskForm";
 
@@ -89,12 +90,11 @@ export default function Task({ task, onTaskChange }) {
               bookmarked={task.bookmarked}
               onTaskChange={onTaskChange}
             />
-            <button
-              onClick={handleComplete}
-              className="btn btn-success text-white btn-sm"
-            >
-              {task.completed ? "Uncomplete" : "Completed"}
-            </button>
+            <CompleteTaskButton
+              taskId={task._id}
+              completed={task.completed}
+              onTaskChange={onTaskChange}
+            />
           </div>
         </div>
       )}
