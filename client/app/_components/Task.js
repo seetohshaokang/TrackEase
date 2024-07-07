@@ -1,5 +1,9 @@
 import { useContext, useState } from "react";
 import { TaskContext } from "../context/TaskContext";
+import BookmarkTaskButton from "./BookmarkTaskButton";
+import CompleteTaskButton from "./CompleteTaskButton";
+import DeleteTaskButton from "./DeleteTaskButton";
+import UpdateTaskForm from "./UpdateTaskForm";
 
 export default function Task({ task, onTaskChange }) {
   const { updateTaskStatus } = useContext(TaskContext);
@@ -8,87 +12,6 @@ export default function Task({ task, onTaskChange }) {
   const [deadline, setDeadline] = useState(task.deadline || "");
   const [remarks, setRemarks] = useState(task.remarks || "");
   const [tags, setTags] = useState(task.tags || []);
-
-  const handleTagChange = (index, value) => {
-    const newTags = [...tags];
-    newTags[index] = value;
-    setTags(newTags);
-  };
-
-  const handleAddTag = () => {
-    setTags([...tags, ""]);
-  };
-
-  const handleRemoveTag = (index) => {
-    setTags(tags.filter((_, i) => i !== index));
-  };
-
-  async function handleDelete() {
-    const token = localStorage.getItem("firebaseToken");
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/deletetask/${task._id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete task");
-      }
-      onTaskChange();
-    } catch (error) {
-      console.error("Error deleting task", error);
-    }
-  }
-
-  async function handleUpdate() {
-    const token = localStorage.getItem("firebaseToken");
-    const updatedTask = { title, deadline, remarks, tags };
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/updatetask/${task._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedTask),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to update task");
-      }
-      setEditMode(false);
-      onTaskChange();
-    } catch (error) {
-      console.error("Error updating task", error);
-    }
-  }
-
-  async function handleBookmark() {
-    const token = localStorage.getItem("firebaseToken");
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/bookmark/${task._id}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to bookmark task");
-      }
-      onTaskChange();
-    } catch (error) {
-      console.error("Error bookmarking task", error);
-    }
-  }
 
   async function handleComplete() {
     const token = localStorage.getItem("firebaseToken");
@@ -121,56 +44,11 @@ export default function Task({ task, onTaskChange }) {
       className="card rounded-md w-auto bg-gray-100 shadow-md p-4"
     >
       {editMode ? (
-        <>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="input input-bordered w-full mb-2"
-          />
-          <input
-            type="date"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-            className="input input-bordered w-full mb-2"
-          />
-          <textarea
-            value={remarks}
-            onChange={(e) => setRemarks(e.target.value)}
-            className="textarea textarea-bordered w-full mb-2"
-          ></textarea>
-          {tags.map((tag, index) => (
-            <div key={index} className="flex items-center mt-2">
-              <input
-                type="text"
-                value={tag}
-                onChange={(e) => handleTagChange(index, e.target.value)}
-                className="input input-bordered flex-1"
-              />
-              <button
-                onClick={() => handleRemoveTag(index)}
-                className="btn btn-error ml-2"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button onClick={handleAddTag} className="btn btn-success mb-2">
-            Add Tag
-          </button>
-          <button
-            onClick={handleUpdate}
-            className="btn btn-success text-white mt-2"
-          >
-            Save
-          </button>
-          <button
-            onClick={() => setEditMode(false)}
-            className="btn btn-error text-white mt-2"
-          >
-            Cancel
-          </button>
-        </>
+        <UpdateTaskForm
+          task={task}
+          onTaskChange={onTaskChange}
+          setEditMode={setEditMode}
+        />
       ) : (
         <div className="flex flex-row px-1">
           <div className="flex-col">
@@ -206,69 +84,17 @@ export default function Task({ task, onTaskChange }) {
                 />
               </svg>
             </button>
-            <button
-              onClick={handleDelete}
-              className="btn bg-red-600 text-white btn-sm"
-              title="Delete"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={handleBookmark}
-              className="btn btn-accent text-white btn-sm"
-              title={task.bookmarked ? "Un-Bookmark" : "Bookmark"}
-            >
-              {task.bookmarked ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m3 3 1.664 1.664M21 21l-1.5-1.5m-5.485-1.242L12 17.25 4.5 21V8.742m.164-4.078a2.15 2.15 0 0 1 1.743-1.342 48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185V19.5M4.664 4.664 19.5 19.5"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
-                  />
-                </svg>
-              )}
-            </button>
-            <button
-              onClick={handleComplete}
-              className="btn btn-success text-white btn-sm"
-            >
-              {task.completed ? "Uncomplete" : "Completed"}
-            </button>
+            <DeleteTaskButton taskId={task._id} onTaskChange={onTaskChange} />
+            <BookmarkTaskButton
+              taskId={task._id}
+              bookmarked={task.bookmarked}
+              onTaskChange={onTaskChange}
+            />
+            <CompleteTaskButton
+              taskId={task._id}
+              completed={task.completed}
+              onTaskChange={onTaskChange}
+            />
           </div>
         </div>
       )}
