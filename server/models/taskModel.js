@@ -8,6 +8,7 @@ const taskSchema = new mongoose.Schema({
   bookmarked: { type: Boolean, default: false },
   completed: { type: Boolean, default: false },
   user_id: { type: String, required: true }, // Firebase UID
+  tags: [String], // For custom tagging
 });
 
 const Task = mongoose.model("Task", taskSchema);

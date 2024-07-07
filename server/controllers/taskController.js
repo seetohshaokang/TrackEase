@@ -1,4 +1,5 @@
 const Task = require("./../models/taskModel");
+const SearchLog = require("./../models/searchLogModel");
 
 // Method for user to get all tasks
 exports.getTasks = async (req, res) => {
@@ -14,13 +15,14 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.createTask = async (req, res) => {
-  const { title, deadline, remarks, status } = req.body;
+  const { title, deadline, remarks, status, tags } = req.body;
 
   const newTask = new Task({
     title,
     deadline,
     remarks,
     status: status || "pending", // Default status if not provided
+    tags,
     user_id: req.user.uid,
   });
   console.log("New task created");
@@ -38,11 +40,11 @@ exports.createTask = async (req, res) => {
 };
 
 exports.updateTask = async (req, res) => {
-  const { title, deadline, remarks, status } = req.body;
+  const { title, deadline, remarks, status, tags } = req.body;
   try {
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
-      { title, deadline, remarks, status },
+      { title, deadline, remarks, status, tags },
       { new: true }
     );
     if (!updatedTask) {
@@ -107,7 +109,16 @@ exports.completeTask = async (req, res) => {
 
 exports.searchTasks = async (req, res) => {
   const { search } = req.query;
+
+  if (!search) {
+    return res.status(400).json({ message: "Search query is required" });
+  }
   try {
+    try {
+      await new SearchLog({ userId: req.user.uid, query: search }).save();
+    } catch (logError) {
+      console.error("Failed to log search:", logError);
+    }
     const tasks = await Task.find({
       user_id: req.user.uid,
       $or: [
@@ -115,14 +126,16 @@ exports.searchTasks = async (req, res) => {
         { remarks: { $regex: search, $options: "i" } },
       ],
     });
+
     if (tasks.length === 0) {
       return res.status(404).json({ message: "No tasks found" });
     }
     res.json(tasks);
   } catch (error) {
+    console.error("Search task error:", error);
     res
       .status(500)
-      .send({ message: "Error retrieving tasks", error: error.message });
+      .send({ message: "Error retrieving tasks", error: error.toString() });
   }
 };
 
@@ -168,3 +181,46 @@ exports.getWeeklyTaskSummary = async (req, res) => {
     });
   }
 };
+
+exports.getSuggestions = async (req, res) => {
+  const { prefix } = req.query;
+  try {
+    const suggestions = await SearchLog.find({
+      query: new RegExp(`^${prefix}`, "i"),
+    })
+      .sort({ date: -1 })
+      .limit(5);
+    console.log("Fetched suggestions:", suggestions);
+    if (!suggestions.length) {
+      res.json([]);
+    } else {
+      res.json(suggestions.map((s) => s.query));
+    }
+  } catch (error) {
+    console.error("Failed to retrieve suggestions:", error);
+    res.status(500).send({
+      message: "Error retrieving suggestions",
+      error: error.toString(),
+    });
+  }
+};
+
+exports.getRecentSearchs = async (req, res) => {
+  const userId = req.user.uid;
+
+  try {
+    const recentSearchs = await SearchLog.find({ userId: userId })
+      .sort({ date: -1 })
+      .limit(5)
+      .select("query -_id");
+
+    res.json(recentSearches.map((item) => item.query));
+  } catch (error) {
+    console.error("Failed to retrieve recent searches:", error);
+    res.status(500).send({
+      message: "Error retrieving recent searches,",
+      error: error.toString(),
+    });
+  }
+};
+

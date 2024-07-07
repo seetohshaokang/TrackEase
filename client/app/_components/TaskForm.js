@@ -8,6 +8,25 @@ function TaskForm({ onClose }) {
   const [deadline, setDeadline] = useState("");
   const [remarks, setRemarks] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tags, setTags] = useState([""]);
+
+  // Function to handle adding new tags
+  const handleAddTag = () => {
+    setTags([...tags, ""]);
+  };
+
+  // Function to handle changing tags
+  const handleTagChange = (value, index) => {
+    const newTags = [...tags];
+    newTags[index] = value;
+    setTags(newTags);
+  };
+
+  // Function to handle removing tags
+  const handleRemoveTag = (index) => {
+    const newTags = tags.filter((_, i) => i !== index);
+    setTags(newTags);
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -28,7 +47,7 @@ function TaskForm({ onClose }) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ title, deadline, remarks }),
+          body: JSON.stringify({ title, deadline, remarks, tags }),
         }
       );
       if (!response.ok) {
@@ -42,7 +61,6 @@ function TaskForm({ onClose }) {
         }
         return;
       }
-      //await fetchTasks();
       const savedTask = await response.json();
       console.log("Task created successfully", savedTask);
       // Clear the form fields
@@ -50,6 +68,7 @@ function TaskForm({ onClose }) {
       setTitle("");
       setDeadline("");
       setRemarks("");
+      setTags([""]);
       onClose();
     } catch (error) {
       console.error("Error creating task", error);
@@ -82,6 +101,33 @@ function TaskForm({ onClose }) {
             placeholder="Remarks"
             className="textarea textarea-bordered w-full mt-4"
           ></textarea>
+
+          {tags.map((tag, index) => (
+            <div key={index} className="flex items-center space-x-2 mt-2">
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                placeholder="Enter tag"
+                value={tag}
+                onChange={(e) => handleTagChange(e.target.value, index)}
+              />
+              <button
+                type="button"
+                className="btn btn-error"
+                onClick={() => handleRemoveTag(index)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-secondary mt-2"
+            onClick={handleAddTag}
+          >
+            Add Tag
+          </button>
+
           <div className="flex justify-between mt-4">
             <button
               type="submit"

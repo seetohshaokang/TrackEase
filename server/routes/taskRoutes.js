@@ -19,10 +19,19 @@ router.put("/complete/:id", checkFirebaseAuth, taskController.completeTask);
 
 router.get("/searchtasks", checkFirebaseAuth, taskController.searchTasks);
 
+
+router.get("/suggestions", checkFirebaseAuth, taskController.getSuggestions);
+router.get(
+  "/recentSearches",
+  checkFirebaseAuth,
+  taskController.getRecentSearchs
+);
+
 router.get(
   "/weekly-summary",
   checkFirebaseAuth,
   taskController.getWeeklyTaskSummary
 );
+
 
 module.exports = router;
