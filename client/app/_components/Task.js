@@ -3,6 +3,7 @@ import { TaskContext } from "../context/TaskContext";
 import BookmarkTaskButton from "./BookmarkTaskButton";
 import CompleteTaskButton from "./CompleteTaskButton";
 import DeleteTaskButton from "./DeleteTaskButton";
+import ScheduleTaskForm from "./ScheduleTaskForm";
 import UpdateTaskForm from "./UpdateTaskForm";
 
 export default function Task({ task, onTaskChange }) {
@@ -12,27 +13,7 @@ export default function Task({ task, onTaskChange }) {
   const [deadline, setDeadline] = useState(task.deadline || "");
   const [remarks, setRemarks] = useState(task.remarks || "");
   const [tags, setTags] = useState(task.tags || []);
-
-  async function handleComplete() {
-    const token = localStorage.getItem("firebaseToken");
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/complete/${task._id}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to mark task as completed");
-      }
-      onTaskChange();
-    } catch (error) {
-      console.error("Error marking task as completed", error);
-    }
-  }
+  const [scheduleMode, setScheduleMode] = useState(false);
 
   const formattedDeadline = deadline
     ? new Date(deadline).toLocaleDateString()
@@ -48,6 +29,12 @@ export default function Task({ task, onTaskChange }) {
           task={task}
           onTaskChange={onTaskChange}
           setEditMode={setEditMode}
+        />
+      ) : scheduleMode ? (
+        <ScheduleTaskForm
+          task={task}
+          onTaskChange={onTaskChange}
+          setScheduleMode={setScheduleMode}
         />
       ) : (
         <div className="flex flex-row px-1">
@@ -95,6 +82,27 @@ export default function Task({ task, onTaskChange }) {
               completed={task.completed}
               onTaskChange={onTaskChange}
             />
+
+            <button
+              onClick={() => setScheduleMode(true)}
+              className="btn bg-blue-400 text-white btn-sm"
+              title="Schedule as Event"
+            >
+              <svg
+                xlmns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 8v4l3 3m4.25-10.75A10 10 0 1 1 4.75 19.25 10 10 0 1 1 19.25 4.75z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       )}

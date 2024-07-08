@@ -1,5 +1,6 @@
 const Task = require("./../models/taskModel");
 const SearchLog = require("./../models/searchLogModel");
+const eventController = require("./eventController");
 
 // Method for user to get all tasks
 exports.getTasks = async (req, res) => {
@@ -224,3 +225,31 @@ exports.getRecentSearchs = async (req, res) => {
   }
 };
 
+exports.scheduleTaskAsEvent = async (req, res) => {
+  try {
+    const { taskId, startDateTime, endDateTime } = req.body;
+    const task = await Task.findById(taskId);
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    const eventDetails = {
+      summary: task.title,
+      location: task.location || "",
+      description: task.remarks || "",
+      startDateTime,
+      endDateTime,
+    };
+
+    // Call the createEvent method from eventController
+    req.body = eventDetails;
+    await eventController.createEvent(req, res);
+  } catch (error) {
+    console.error("Error scheduling task as event:", error);
+    res.status(500).send({
+      message: "Error scheduling task as event",
+      error: error.message,
+    });
+  }
+};

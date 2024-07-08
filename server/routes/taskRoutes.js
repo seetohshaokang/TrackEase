@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("./../controllers/taskController");
-const { checkFirebaseAuth } = require("./../middleware/authMiddleware");
+const {
+  checkFirebaseAuth,
+  requireGoogleToken,
+} = require("./../middleware/authMiddleware");
 
 router.get("/tasklist", checkFirebaseAuth, taskController.getTasks);
 router.post(
@@ -19,7 +22,6 @@ router.put("/complete/:id", checkFirebaseAuth, taskController.completeTask);
 
 router.get("/searchtasks", checkFirebaseAuth, taskController.searchTasks);
 
-
 router.get("/suggestions", checkFirebaseAuth, taskController.getSuggestions);
 router.get(
   "/recentSearches",
@@ -33,5 +35,12 @@ router.get(
   taskController.getWeeklyTaskSummary
 );
 
+// Route to schedule task into an event
+router.post(
+  "/schedule",
+  checkFirebaseAuth,
+  requireGoogleToken,
+  taskController.scheduleTaskAsEvent
+);
 
 module.exports = router;
