@@ -5,9 +5,9 @@ import Task from "./Task";
 
 function WeeklyTaskList() {
   const [weeklyTasks, setWeeklyTasks] = useState([]);
-  const [completedTasks, setCompletedTasks] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
     setLoading(true);
@@ -25,7 +25,6 @@ function WeeklyTaskList() {
       })
       .then((data) => {
         setWeeklyTasks(data);
-        setCompletedTasks(data.filter((task) => task.completed).length);
         setError(null);
       })
       .catch((error) => {
@@ -36,8 +35,22 @@ function WeeklyTaskList() {
   }, []);
 
   const handleTaskCompletionToggle = (id) => {
-    setWeeklyTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
+    setWeeklyTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task._id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
+
+  const filteredTasks = weeklyTasks.filter((task) => {
+    if (activeTab === "completed") {
+      return task.completed;
+    }
+    if (activeTab === "uncompleted") {
+      return !task.completed;
+    }
+    return true;
+  });
 
   const completedTasksCount = weeklyTasks.filter(
     (task) => task.completed
@@ -75,13 +88,41 @@ function WeeklyTaskList() {
         {completedTasksCount} of {weeklyTasks.length} tasks completed
       </p>
 
+      <div className="flex justify-around mb-4">
+        <button
+          className={`py-2 px-4 rounded-lg text-xl ${
+            activeTab === "all" ? "bg-gray-300" : "bg-gray-100"
+          }`}
+          onClick={() => setActiveTab("all")}
+        >
+          All
+        </button>
+
+        <button
+          className={`py-2 px-4 rounded-lg text-xl ${
+            activeTab === "uncompleted" ? "bg-gray-300" : "bg-gray-100"
+          }`}
+          onClick={() => setActiveTab("uncompleted")}
+        >
+          Uncompleted
+        </button>
+        <button
+          className={`py-2 px-4 rounded-lg text-xl ${
+            activeTab === "completed" ? "bg-gray-300" : "bg-gray-100"
+          }`}
+          onClick={() => setActiveTab("completed")}
+        >
+          Completed
+        </button>
+      </div>
+
       <div className="flex flex-col gap-4">
-        {weeklyTasks.length === 0 ? (
+        {filteredTasks.length === 0 ? (
           <div className="alert alert-warning">
             No tasks scheduled for the upcoming week.
           </div>
         ) : (
-          weeklyTasks.map((task) => (
+          filteredTasks.map((task) => (
             <Task
               key={task._id}
               task={task}
