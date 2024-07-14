@@ -29,7 +29,7 @@ exports.getEvents = async (req, res) => {
       calendarId: "primary",
       maxResults: 2500, // Increase max results if needed
       singleEvents: true,
-      orderBy: 'startTime',
+      orderBy: "startTime",
     });
 
     console.log("Events retrieved:", response.data.items);
@@ -122,11 +122,11 @@ exports.updateEvent = async (req, res) => {
       description: req.body.description,
       start: {
         dateTime: req.body.startDateTime,
-        timeZone: "America/Los_Angeles",
+        timeZone: "Asia/Singapore",
       },
       end: {
         dateTime: req.body.endDateTime,
-        timeZone: "America/Los_Angeles",
+        timeZone: "Asia/Singapore",
       },
     };
 

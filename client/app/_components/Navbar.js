@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { signOutUser } from "./Auth";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signOutUser } from "./Auth";
 
 function Navbar() {
   const router = useRouter();
@@ -18,9 +18,34 @@ function Navbar() {
       <ul className="space-y-4">
         <li className="tooltip tooltip-right" data-tip="Home">
           <Link href="/">
-          <Image src="/trackease-navbar-logo.png" alt="trackease logo" width={64} height={64} />
+            <Image
+              src="/trackease-navbar-logo.png"
+              alt="trackease logo"
+              width={64}
+              height={64}
+            />
           </Link>
         </li>
+
+        <li className="tooltip tooltip-right" data-tip="dashboard">
+          <Link href="/dashboard">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-12"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 3v6m0 0h6m-6 0H6m6-6v12a6 6 0 006 6h3m-9 0a6 6 0 01-6-6H3"
+              />
+            </svg>
+          </Link>
+        </li>
+
         <li className="tooltip tooltip-right" data-tip="Tasks">
           <Link href="/tasks">
             <svg
@@ -41,14 +66,29 @@ function Navbar() {
         </li>
         <li className="tooltip tooltip-right" data-tip="Event Calendar">
           <Link href="/events">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-12">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-</svg>
-
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-12"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+              />
+            </svg>
           </Link>
         </li>
       </ul>
-      <button className="btn btn-md btn-error btn-outline mt-auto" onClick={handleSignOut}>Sign out</button>
+      <button
+        className="btn btn-md btn-error btn-outline mt-auto"
+        onClick={handleSignOut}
+      >
+        Sign out
+      </button>
     </nav>
   );
 }

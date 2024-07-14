@@ -10,7 +10,7 @@ export default function CarouselFeatureTwo() {
                 <div className="absolute inset-0 hh-full w-full rounded-lg bg-black px-12 text-center text-slate-100 [transform:rotateY(180deg)] [backface-visibility:hidden]">
                     <div className="flex min-h-full flex-col items-center justify-center">
                         <h1 className="text-3xl font-bold">Google Event Calendar</h1>
-                        <p className="text-lg">You can add, view, edit and delete events to your Google Calendar</p>
+                        <p className="text-lg">You can add, view, edit and delete events, synced to your Google Calendar</p>
                         <p className="text-sm">Click the arrow to view demonstration</p>
                     </div>
                 </div>

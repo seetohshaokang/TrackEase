@@ -30,9 +30,11 @@ function TaskForm({ onClose }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setIsSubmitting(true); // Disable submit button while processing
     const token = localStorage.getItem("firebaseToken");
     if (!token) {
       console.error("No firebase token found in localStorage");
+      setIsSubmitting(false);
       return;
     }
 
@@ -45,16 +47,24 @@ function TaskForm({ onClose }) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ title, deadline, remarks }),
+          body: JSON.stringify({ title, deadline, remarks, tags }),
         }
       );
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error creating task");
+        setIsSubmitting(false);
+
+        if (response.status === 409) {
+          alert(errorData.message);
+        } else {
+          throw new Error(errorData.message || "Error creating task");
+        }
+        return;
       }
-      await fetchTasks();
-      console.log("Task created successfully");
+      const savedTask = await response.json();
+      console.log("Task created successfully", savedTask);
       // Clear the form fields
+      fetchTasks();
       setTitle("");
       setDeadline("");
       setRemarks("");
@@ -62,6 +72,7 @@ function TaskForm({ onClose }) {
       onClose();
     } catch (error) {
       console.error("Error creating task", error);
+      setIsSubmitting(false); // Enable submit button again in case of error
     }
   }
 
@@ -90,18 +101,54 @@ function TaskForm({ onClose }) {
             placeholder="Remarks"
             className="textarea textarea-bordered w-full mt-4"
           ></textarea>
+
+          {tags.map((tag, index) => (
+            <div key={index} className="flex items-center space-x-2 mt-2">
+              <input
+                type="text"
+                className="input input-bordered w-full"
+                placeholder="Enter tag"
+                value={tag}
+                onChange={(e) => handleTagChange(e.target.value, index)}
+              />
+              <button
+                type="button"
+                className="btn btn-error"
+                onClick={() => handleRemoveTag(index)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-secondary mt-2"
+            onClick={handleAddTag}
+          >
+            Add Tag
+          </button>
+
           <div className="flex justify-between mt-4">
-            <button type="submit" className="btn btn-success text-white">
+            <button
+              type="submit"
+              className="btn btn-success text-white"
+              disabled={isSubmitting}
+            >
               Add Task
             </button>
-            <button type="button" className="btn bg-gray-300" onClick={onClose}>
+            <button
+              type="button"
+              className="btn bg-gray-300"
+              onClick={onClose}
+              disabled={isSubmitting}
+            >
               Cancel
             </button>
           </div>
         </form>
       </div>
     </div>
-  );  
+  );
 }
 
 export default TaskForm;
