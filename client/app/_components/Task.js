@@ -22,7 +22,7 @@ export default function Task({ task, onTaskChange }) {
   return (
     <div
       key={task._id}
-      className="card rounded-md w-auto bg-gray-100 shadow-md p-4"
+      className="card rounded-md w-full bg-gray-100 shadow-md p-4 "
     >
       {editMode ? (
         <UpdateTaskForm
@@ -37,6 +37,7 @@ export default function Task({ task, onTaskChange }) {
           setScheduleMode={setScheduleMode}
         />
       ) : (
+
         <div className="flex flex-row px-1 flex-wrap">
           <div className="flex-col">
           <CompleteTaskButton
@@ -55,7 +56,7 @@ export default function Task({ task, onTaskChange }) {
               ))}
             </div>
           </div>
-          <div className="ml-auto flex items-center space-x-1">
+          <div className="ml-auto flex items-center space-x-2">
             <button
               onClick={() => setEditMode(true)}
               className="btn bg-gray-400 text-white btn-sm"

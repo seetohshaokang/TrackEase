@@ -69,7 +69,7 @@ function WeeklyTaskList() {
   }
 
   return (
-    <div className="p-5 bg-white rounded-lg shadow-lg max-w-md m-auto mt-5">
+    <div className="p-5 bg-white rounded-lg shadow-lg max-w-2xl m-auto mt-5">
       <h2 className="text-xl font-bold mb-4"> Tasks for the Upcoming Week</h2>
       <div className="flex justify-center">
         <div
