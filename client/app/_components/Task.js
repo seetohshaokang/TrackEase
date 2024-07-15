@@ -37,8 +37,13 @@ export default function Task({ task, onTaskChange }) {
           setScheduleMode={setScheduleMode}
         />
       ) : (
-        <div className="flex flex-row px-1">
+        <div className="flex flex-row px-1 flex-wrap">
           <div className="flex-col">
+          <CompleteTaskButton
+              taskId={task._id}
+              completed={task.completed}
+              onTaskChange={onTaskChange}
+            />
             <h3 className="text-xl font-bold">{task.title}</h3>
             <p>Deadline: {new Date(task.deadline).toLocaleDateString()}</p>
             <p>Remarks: {task.remarks}</p>
@@ -77,11 +82,7 @@ export default function Task({ task, onTaskChange }) {
               bookmarked={task.bookmarked}
               onTaskChange={onTaskChange}
             />
-            <CompleteTaskButton
-              taskId={task._id}
-              completed={task.completed}
-              onTaskChange={onTaskChange}
-            />
+
 
             <button
               onClick={() => setScheduleMode(true)}

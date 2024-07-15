@@ -14,7 +14,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="fixed w-20 h-screen p-4 text-custom-dark-green border-r-2 border-custom-dark-green shadow flex flex-col justify-between">
+    <nav className="fixed  z-50 w-20 h-screen p-4 text-custom-dark-green border-r-2 border-custom-dark-green shadow flex flex-col justify-between">
       <ul className="space-y-4">
         <li className="tooltip tooltip-right" data-tip="Home">
           <Link href="/">

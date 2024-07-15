@@ -8,7 +8,7 @@ function TaskForm({ onClose }) {
   const [deadline, setDeadline] = useState("");
   const [remarks, setRemarks] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [tags, setTags] = useState([""]);
+  const [tags, setTags] = useState([]); // Initialize tags as an empty array so no empty bubble
 
   // Function to handle adding new tags
   const handleAddTag = () => {
@@ -68,7 +68,7 @@ function TaskForm({ onClose }) {
       setTitle("");
       setDeadline("");
       setRemarks("");
-      setTags([""]);
+      setTags([]); // Clear tags
       onClose();
     } catch (error) {
       console.error("Error creating task", error);
@@ -77,7 +77,7 @@ function TaskForm({ onClose }) {
   }
 
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-5 rounded-lg shadow-lg w-full max-w-md">
         <form onSubmit={handleSubmit} className="form-control">
           <input

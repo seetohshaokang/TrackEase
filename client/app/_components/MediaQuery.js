@@ -7,7 +7,7 @@ const MediaQuery = ({ children }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
+      setIsDesktop(window.innerWidth >= 850 && window.innerHeight >= 500);
     };
 
     // Set initial value on mount
@@ -27,7 +27,7 @@ const MediaQuery = ({ children }) => {
         </div>
       ) : (
         <div className="mobile-warning flex items-center justify-center text-center h-screen">
-          <p className='font-bold'>This application is best optimised on desktop/laptop screens :)</p>
+          <p className='font-bold'>This application is best optimised on larger screens :)</p>
         </div>
       )}
     </div>
