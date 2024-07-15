@@ -82,7 +82,8 @@ function UpdateTaskForm({ task, onTaskChange, setEditMode }) {
           </button>
         </div>
       ))}
-      <button onClick={handleAddTag} className="btn btn-success mb-2">
+      <div className="flex justify-center space-x-1">
+      <button onClick={handleAddTag} className="btn btn-success mt-2">
         Add Tag
       </button>
       <button
@@ -97,6 +98,7 @@ function UpdateTaskForm({ task, onTaskChange, setEditMode }) {
       >
         Cancel
       </button>
+      </div>
     </div>
   );
 }
