@@ -1,5 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Task from "./../_components/Task.js";
+import { TaskContext } from "./../context/TaskContext";
 
 const taskMock = {
   _id: "1",
@@ -11,9 +12,24 @@ const taskMock = {
   bookmarked: false,
 };
 
+const mockContextValue = {
+  updateTaskStatus: jest.fn(),
+  fetchTasks: jest.fn(),
+};
+
+const TaskProvider = ({ children }) => (
+  <TaskContext.Provider value={mockContextValue}>
+    {children}
+  </TaskContext.Provider>
+);
+
 describe("Task Component", () => {
   test("renders task details", () => {
-    render(<Task task={taskMock} onTaskChange={() => {}} />);
+    render(
+      <TaskProvider>
+        <Task task={taskMock} onTaskChange={() => {}} />
+      </TaskProvider>
+    );
 
     expect(screen.getByText(/Test Task/i)).toBeInTheDocument();
     expect(screen.getByText(/Deadline:/i)).toBeInTheDocument();
@@ -24,41 +40,79 @@ describe("Task Component", () => {
 
   test("calls on TaskChange when edit button is clicked", () => {
     const onTaskChange = jest.fn();
-    render(<Task task={taskMock} onTaskChange={onTaskChange} />);
+    render(
+      <TaskProvider>
+        <Task task={taskMock} onTaskChange={() => {}} />
+      </TaskProvider>
+    );
 
     fireEvent.click(screen.getByTitle(/Edit/i));
     expect(onTaskChange).toHaveBeenCalled();
   });
 
-  test("calls onTaskChange when delete button is clicked", () => {
+  test("calls onTaskChange when delete button is clicked", async () => {
     const onTaskChange = jest.fn();
-    render(<Task task={taskMock} onTaskChange={onTaskChange} />);
+    render(
+      <TaskProvider>
+        <Task task={taskMock} onTaskChange={() => {}} />
+      </TaskProvider>
+    );
 
     fireEvent.click(screen.getByTitle(/Delete/i));
-    expect(onTaskChange).toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(onTaskChange).toHaveBeenCalled();
+    });
   });
 
-  test("calls onTaskChange when bookmark button is clicked", () => {
+  test("calls onTaskChange when bookmark button is clicked", async () => {
     const onTaskChange = jest.fn();
-    render(<Task task={taskMock} onTaskChange={onTaskChange} />);
+    render(
+      <TaskProvider>
+        <Task task={taskMock} onTaskChange={() => {}} />
+      </TaskProvider>
+    );
 
     fireEvent.click(screen.getByTitle(/Bookmark/i));
-    expect(onTaskChange).toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(onTaskChange).toHaveBeenCalled();
+    });
   });
 
-  test("calls onTaskChange when complete button is clicked", () => {
+  test("calls onTaskChange when complete button is clicked", async () => {
     const onTaskChange = jest.fn();
-    render(<Task task={taskMock} onTaskChange={onTaskChange} />);
+    render(
+      <TaskProvider>
+        <Task task={taskMock} onTaskChange={() => {}} />
+      </TaskProvider>
+    );
 
     fireEvent.click(screen.getByTitle(/Complete/i));
-    expect(onTaskChange).toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(onTaskChange).toHaveBeenCalled();
+    });
   });
 
-  test("calls onTaskChange when schedule button is clicked", () => {
+  test("calls onTaskChange when schedule button is clicked", async () => {
     const onTaskChange = jest.fn();
-    render(<Task task={taskMock} onTaskChange={onTaskChange} />);
+    render(
+      <TaskProvider>
+        <Task task={taskMock} onTaskChange={() => {}} />
+      </TaskProvider>
+    );
 
-    fireEvent.click(screen.getAllByTitle(/Schedule as Event/i));
-    expect(onTaskChange).toHaveBeenCalled();
+    fireEvent.click(screen.getByTitle(/Schedule as Event/i));
+    //Verify the state change to schedule mode
+    expect(screen.getByPlaceholderText(/Start DateTime/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/End DateTime/i)).toBeInTheDocument();
+
+    //Simulate a form submission
+    fireEvent.click(screen.getByText(/Schedule/i));
+
+    await waitFor(() => {
+      expect(onTaskChange).toHaveBeenCalled();
+    });
   });
 });
