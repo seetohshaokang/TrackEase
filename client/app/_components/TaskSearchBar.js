@@ -8,6 +8,7 @@ function TaskSearchbar() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef(null);
 
+  // Function to fetch recent searches
   const fetchRecentSearches = () => {
     const token = localStorage.getItem("firebaseToken");
     if (!token) {
@@ -101,6 +102,7 @@ function TaskSearchbar() {
   };
 
   const handleKeyDown = (e) => {
+    // Search term and reset search bar
     if (e.key === "Enter") {
       e.preventDefault();
       handleSearch();
@@ -114,6 +116,7 @@ function TaskSearchbar() {
     setShowSuggestions(false);
   };
 
+  // Function to change search term to suggestion upon clicking (buggy)
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion);
     console.log("Suggestion clicked:", suggestion);
@@ -121,6 +124,7 @@ function TaskSearchbar() {
     fetchTasks(suggestion);
   };
 
+  //Debugging log
   useEffect(() => {
     console.log("Search term updated:", searchTerm);
   }, [searchTerm]);
