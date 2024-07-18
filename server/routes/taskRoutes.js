@@ -26,7 +26,7 @@ router.get("/suggestions", checkFirebaseAuth, taskController.getSuggestions);
 router.get(
   "/recentSearches",
   checkFirebaseAuth,
-  taskController.getRecentSearchs
+  taskController.getRecentSearches
 );
 
 router.get(
