@@ -206,11 +206,11 @@ exports.getSuggestions = async (req, res) => {
   }
 };
 
-exports.getRecentSearchs = async (req, res) => {
+exports.getRecentSearches = async (req, res) => {
   const userId = req.user.uid;
 
   try {
-    const recentSearchs = await SearchLog.find({ userId: userId })
+    const recentSearches = await SearchLog.find({ userId: userId })
       .sort({ date: -1 })
       .limit(5)
       .select("query -_id");
