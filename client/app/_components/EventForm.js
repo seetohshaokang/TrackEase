@@ -68,6 +68,7 @@ function EventForm({ event = {}, method = "POST", onSuccess, onClose }) {
           <input
             type="text"
             name="summary"
+            id="summary"
             value={formData.summary}
             onChange={handleChange}
             placeholder="Summary"
@@ -76,6 +77,7 @@ function EventForm({ event = {}, method = "POST", onSuccess, onClose }) {
           <input
             type="text"
             name="location"
+            id="location"
             value={formData.location}
             onChange={handleChange}
             placeholder="Location"
@@ -84,27 +86,30 @@ function EventForm({ event = {}, method = "POST", onSuccess, onClose }) {
           <input
             type="text"
             name="description"
+            id="description"
             value={formData.description}
             onChange={handleChange}
             placeholder="Description"
             className="input input-bordered w-full mb-2"
           />
           <label htmlFor="startDateTime" className="block text-gray-800">
-    Start:
-  </label>
+            Start:
+          </label>
           <input
             type="datetime-local"
             name="startDateTime"
+            id="startDateTime"
             value={formData.startDateTime}
             onChange={handleChange}
             className="input input-bordered w-full mb-2"
           />
           <label htmlFor="endDateTime" className="block text-gray-800">
-    End:
-  </label>
+            End:
+          </label>
           <input
             type="datetime-local"
             name="endDateTime"
+            id="endDateTime"
             value={formData.endDateTime}
             onChange={handleChange}
             className="input input-bordered w-full mb-2"
@@ -113,7 +118,11 @@ function EventForm({ event = {}, method = "POST", onSuccess, onClose }) {
             <button type="submit" className="btn btn-success text-white">
               {method === "POST" ? "Add Event" : "Update Event"}
             </button>
-            <button type="button" className="btn btn-gray-300" onClick={onClose}>
+            <button
+              type="button"
+              className="btn btn-gray-300"
+              onClick={onClose}
+            >
               Cancel
             </button>
           </div>
