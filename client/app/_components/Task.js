@@ -38,13 +38,15 @@ export default function Task({ task, onTaskChange }) {
         />
       ) : (
         <div className="flex flex-row px-1 flex-wrap">
-          <div className="flex-col">
-            <CompleteTaskButton
+          <div className="flex flex-col">
+            <div className="flex flex-row space-x-1">
+              <CompleteTaskButton
               taskId={task._id}
               completed={task.completed}
               onTaskChange={onTaskChange}
-            />
-            <h3 className="text-xl font-bold">{task.title}</h3>
+              />
+              <h3 className="text-xl font-bold pt-1">{task.title}</h3>
+            </div>
             <p>Deadline: {new Date(task.deadline).toLocaleDateString()}</p>
             <p>Remarks: {task.remarks}</p>
             <div className="flex flex-wrap mt-2">

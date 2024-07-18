@@ -21,7 +21,7 @@ export default function TaskPage() {
             <TaskList />
           </div>
 
-          <div className=" basis-2/5 pl-4 ">
+          <div className=" basis-2/5 pl-4 " >
             <div className="flex flex-col ">
               <button
                 className="btn btn-success btn-lg text-white mb-4 w-2/5 mx-auto shadow-md"
@@ -34,7 +34,7 @@ export default function TaskPage() {
               <BookmarkList />
             </div>
           </div>
-          
+
         </TasksProvider>
       </div>
     </div>
