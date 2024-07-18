@@ -30,7 +30,7 @@ export default function TaskPage() {
                 Add Task
               </button>
               {showForm && <TaskForm onClose={() => setShowForm(false)} />}
-              <h2 className="text-center w-full text-2xl font-bold">Bookmarked</h2>
+              <h2 className="text-center w-full text-2xl font-bold pt-1 pb-2">Bookmarked</h2>
               <BookmarkList />
             </div>
           </div>
