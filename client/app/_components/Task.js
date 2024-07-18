@@ -37,7 +37,6 @@ export default function Task({ task, onTaskChange }) {
           setScheduleMode={setScheduleMode}
         />
       ) : (
-
         <div className="flex flex-row px-1 flex-wrap">
           <div className="flex flex-col">
             <div className="flex flex-row space-x-1">
@@ -85,7 +84,6 @@ export default function Task({ task, onTaskChange }) {
               bookmarked={task.bookmarked}
               onTaskChange={onTaskChange}
             />
-
 
             <button
               onClick={() => setScheduleMode(true)}
