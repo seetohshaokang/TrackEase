@@ -95,17 +95,17 @@ function TaskSearchbar() {
     }
   };
 
-  const handleSearch = () => {
-    fetchTasks(searchTerm);
+  const handleSearch = (term) => {
+    console.log("Searching for:", term);
+    fetchTasks(term);
     setSuggestions([]);
     setShowSuggestions(false);
   };
 
   const handleKeyDown = (e) => {
-    // Search term and reset search bar
     if (e.key === "Enter") {
       e.preventDefault();
-      handleSearch();
+      handleSearch(searchTerm);
     }
   };
 
@@ -116,18 +116,21 @@ function TaskSearchbar() {
     setShowSuggestions(false);
   };
 
-  // Function to change search term to suggestion upon clicking (buggy)
   const handleSuggestionClick = (suggestion) => {
-    setSearchTerm(suggestion);
     console.log("Suggestion clicked:", suggestion);
+    setSearchTerm(suggestion);
+    handleSearch(suggestion);
+    //fetchTasks(suggestion);
     setShowSuggestions(false);
-    fetchTasks(suggestion);
   };
 
-  //Debugging log
   useEffect(() => {
     console.log("Search term updated:", searchTerm);
   }, [searchTerm]);
+
+  useEffect(() => {
+    console.log("Suggestions updated:", suggestions);
+  }, [suggestions]);
 
   return (
     <div className="relative flex items-center space-x-2 w-full">
@@ -195,6 +198,7 @@ function TaskSearchbar() {
               key={index}
               className="p-2 hover:bg-gray-200 cursor-pointer"
               onClick={() => {
+                console.log("Clicked suggestion:", suggestion);
                 handleSuggestionClick(suggestion);
               }}
             >
