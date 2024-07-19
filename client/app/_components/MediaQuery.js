@@ -7,7 +7,7 @@ const MediaQuery = ({ children }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 850 && window.innerHeight >= 500);
+      setIsDesktop(window.innerWidth >= 825 && window.innerHeight >= 500);
     };
 
     // Set initial value on mount

@@ -23,7 +23,7 @@ function BookmarkTaskButton({ taskId, bookmarked, onTaskChange }) {
   return (
     <button
       onClick={handleBookmark}
-      className="btn btn-accent text-white btn-sm"
+      className="btn bg-teal-400 text-white btn-sm"
       title={bookmarked ? "Un-Bookmark" : "Bookmark"}
     >
       {bookmarked ? (

@@ -39,14 +39,7 @@ export default function Task({ task, onTaskChange }) {
       ) : (
         <div className="flex flex-row px-1 flex-wrap">
           <div className="flex flex-col">
-            <div className="flex flex-row space-x-1">
-              <CompleteTaskButton
-              taskId={task._id}
-              completed={task.completed}
-              onTaskChange={onTaskChange}
-              />
-              <h3 className="text-xl font-bold pt-1">{task.title}</h3>
-            </div>
+            <h3 className="text-xl font-bold pt-1">{task.title}</h3>
             <p>Deadline: {new Date(task.deadline).toLocaleDateString()}</p>
             <p>Remarks: {task.remarks}</p>
             <div className="flex flex-wrap mt-2">
@@ -57,7 +50,7 @@ export default function Task({ task, onTaskChange }) {
               ))}
             </div>
           </div>
-          <div className="ml-auto flex items-center space-x-2">
+          <div className="ml-auto flex items-center space-x-1">
             <button
               onClick={() => setEditMode(true)}
               className="btn bg-gray-400 text-white btn-sm"
@@ -105,6 +98,11 @@ export default function Task({ task, onTaskChange }) {
                 />
               </svg>
             </button>
+            <CompleteTaskButton
+              taskId={task._id}
+              completed={task.completed}
+              onTaskChange={onTaskChange}
+              />
           </div>
         </div>
       )}
