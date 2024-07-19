@@ -14,7 +14,7 @@ function BookmarkTaskButton({ taskId, bookmarked, onTaskChange }) {
       if (!response.ok) {
         throw new Error("Failed to bookmark task");
       }
-      onTaskChange();
+      onTaskChange(!bookmarked); // Pass the new bookmarked state to onTaskChange
     } catch (error) {
       console.error("Error bookmarking task", error);
     }

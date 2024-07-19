@@ -138,7 +138,7 @@ function TaskForm({ onClose }) {
             </button>
             <button
               type="button"
-              className="btn bg-gray-300"
+              className="btn bg-gray-400 text-white"
               onClick={onClose}
               disabled={isSubmitting}
             >
