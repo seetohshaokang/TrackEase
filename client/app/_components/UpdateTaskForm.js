@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function UpdateTaskForm({ task, onTaskChange, setEditMode }) {
+function UpdateTaskForm({ task, onTaskChange, setEditMode, onTagUpdate }) {
   const [title, setTitle] = useState(task.title || "");
   const [deadline, setDeadline] = useState(task.deadline || "");
   const [remarks, setRemarks] = useState(task.remarks || "");
@@ -10,14 +10,19 @@ function UpdateTaskForm({ task, onTaskChange, setEditMode }) {
     const newTags = [...tags];
     newTags[index] = value;
     setTags(newTags);
+    onTagUpdate(newTags); // Call onTagUpdate to update the tags in the parent component
   };
 
   const handleAddTag = () => {
-    setTags([...tags, ""]);
+    const newTags = [...tags, ""];
+    setTags(newTags);
+    onTagUpdate(newTags); // Call onTagUpdate to update the tags in the parent component
   };
 
   const handleRemoveTag = (index) => {
-    setTags(tags.filter((_, i) => i !== index));
+    const newTags = tags.filter((_, i) => i !== index);
+    setTags(newTags);
+    onTagUpdate(newTags); // Call onTagUpdate to update the tags in the parent component
   };
 
   async function handleUpdate() {
@@ -83,18 +88,18 @@ function UpdateTaskForm({ task, onTaskChange, setEditMode }) {
         </div>
       ))}
       <div className="flex justify-center space-x-1">
-      <button onClick={handleAddTag} className="btn btn-success mt-2">
+      <button onClick={handleAddTag} className="btn bg-pink-400 text-white mt-2">
         Add Tag
       </button>
       <button
         onClick={handleUpdate}
-        className="btn btn-success text-white mt-2"
+        className="btn bg-green-600 text-white mt-2"
       >
         Save
       </button>
       <button
         onClick={() => setEditMode(false)}
-        className="btn btn-success text-white mt-2"
+        className="btn bg-gray-400 text-white mt-2"
       >
         Cancel
       </button>

@@ -12,12 +12,28 @@ export default function Task({ task, onTaskChange }) {
   const [title, setTitle] = useState(task.title || "");
   const [deadline, setDeadline] = useState(task.deadline || "");
   const [remarks, setRemarks] = useState(task.remarks || "");
-  const [tags, setTags] = useState(task.tags || []);
+  const [tags, setTags] = useState(
+    task.bookmarked ? ["Bookmarked", ...(task.tags || [])] : task.tags || []
+  );
   const [scheduleMode, setScheduleMode] = useState(false);
 
   const formattedDeadline = deadline
     ? new Date(deadline).toLocaleDateString()
     : "No deadline";
+
+    const handleTagUpdate = (updatedTags) => {
+      setTags(task.bookmarked ? ["Bookmarked", ...updatedTags.filter(tag => tag !== "Bookmarked")] : updatedTags); // updates local state to re-render component, displaying it immediately
+      onTaskChange(); // notifies parent component/context about the change
+    };
+
+    const handleBookmarkChange = (isBookmarked) => {
+      if (isBookmarked) {
+        setTags((prevTags) => ["Bookmarked", ...prevTags.filter(tag => tag !== "Bookmarked")]);
+      } else {
+        setTags((prevTags) => prevTags.filter(tag => tag !== "Bookmarked"));
+      }
+      onTaskChange(); // Notify parent component or context about the change
+    };
 
   return (
     <div
@@ -29,6 +45,7 @@ export default function Task({ task, onTaskChange }) {
           task={task}
           onTaskChange={onTaskChange}
           setEditMode={setEditMode}
+          onTagUpdate={handleTagUpdate}
         />
       ) : scheduleMode ? (
         <ScheduleTaskForm
@@ -44,7 +61,7 @@ export default function Task({ task, onTaskChange }) {
             <p>Remarks: {task.remarks}</p>
             <div className="flex flex-wrap mt-2">
               {tags.map((tag, index) => (
-                <span key={index} className="badge badge-outline mr-2 mb-2">
+                <span key={index} className={`badge badge-outline mr-2 mb-2 ${tag === "Bookmarked" ? "bg-white text-teal-500 border-teal-500" : ""}`}>
                   {tag}
                 </span>
               ))}
@@ -75,7 +92,7 @@ export default function Task({ task, onTaskChange }) {
             <BookmarkTaskButton
               taskId={task._id}
               bookmarked={task.bookmarked}
-              onTaskChange={onTaskChange}
+              onTaskChange={handleBookmarkChange}
             />
 
             <button

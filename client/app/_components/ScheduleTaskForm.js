@@ -58,19 +58,21 @@ function ScheduleTaskForm({ task, onTaskChange, setScheduleMode }) {
         required="true"
       />
 
+      <div className="flex justify-center space-x-1">
       <button
         onClick={handleSchedule}
-        className="btn btn-success text-white mt-2"
+        className="btn text-white bg-blue-400 mt-2"
       >
         Schedule
       </button>
 
       <button
         onClick={() => setScheduleMode(false)}
-        className="btn btn-secondary text-white mt-2"
+        className="btn bg-gray-400 text-white mt-2"
       >
         Cancel
       </button>
+      </div>
     </div>
   );
 }
