@@ -183,6 +183,7 @@ exports.getWeeklyTaskSummary = async (req, res) => {
   }
 };
 
+// End point for task search bar
 exports.getSuggestions = async (req, res) => {
   const { prefix } = req.query;
   try {
@@ -206,6 +207,7 @@ exports.getSuggestions = async (req, res) => {
   }
 };
 
+// Endpoint for task search bar
 exports.getRecentSearches = async (req, res) => {
   const userId = req.user.uid;
 
@@ -225,12 +227,21 @@ exports.getRecentSearches = async (req, res) => {
   }
 };
 
+// Endpoint to schedule task as event
 exports.scheduleTaskAsEvent = async (req, res) => {
   try {
     const { taskId, startDateTime, endDateTime } = req.body;
+
+    if (!taskId || !startDateTime || !endDateTime) {
+      return res.status(400).json({
+        message: "taskId, startDateTime, and endDateTime are required",
+      });
+    }
+
     const task = await Task.findById(taskId);
 
     if (!task) {
+      console.error("Task not found for ID:", taskId);
       return res.status(404).json({ message: "Task not found" });
     }
 
@@ -241,6 +252,8 @@ exports.scheduleTaskAsEvent = async (req, res) => {
       startDateTime,
       endDateTime,
     };
+
+    console.log("Event details prepared:", eventDetails);
 
     // Call the createEvent method from eventController
     req.body = eventDetails;
