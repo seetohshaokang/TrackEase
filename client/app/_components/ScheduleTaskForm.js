@@ -5,37 +5,50 @@ function ScheduleTaskForm({ task, onTaskChange, setScheduleMode }) {
   const [endDateTime, setEndDateTime] = useState("");
 
   async function handleSchedule() {
-    const token = localStorage.getItem("firebaseToken");
-    const googleAccessToken = localStorage.getItem("googleAccessToken");
-    const scheduleData = {
-      taskId: task._id,
-      startDateTime,
-      endDateTime,
-    };
-
     try {
+      const payload = {
+        taskId: task._id,
+        startDateTime: `${startDateTime}:00Z`,
+        endDateTime: `${endDateTime}:00Z`,
+      };
+
+      console.log("Payload being sent to schedule task:", payload);
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/schedule`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            "Google-Token": `Bearer ${googleAccessToken}`,
+            Authorization: `Bearer ${localStorage.getItem("firebaseToken")}`,
+            "Google-Token": `Bearer ${localStorage.getItem(
+              "googleAccessToken"
+            )}`,
           },
-          body: JSON.stringify(scheduleData),
+          body: JSON.stringify(payload),
         }
       );
 
       if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Error scheduling tasks as event:", errorDetails);
         throw new Error("Failed to schedule task as event");
       }
 
+      const result = await response.json();
+      onTaskChange(result);
       setScheduleMode(false);
-      onTaskChange();
     } catch (error) {
       console.error("Error scheduling tasks as event", error);
     }
+  }
+
+  function handleStartDateTimeChange(e) {
+    setStartDateTime(e.target.value);
+  }
+
+  function handleEndDateTimeChange(e) {
+    setEndDateTime(e.target.value);
   }
 
   return (
@@ -43,7 +56,7 @@ function ScheduleTaskForm({ task, onTaskChange, setScheduleMode }) {
       <input
         type="datetime-local"
         value={startDateTime}
-        onChange={(e) => setStartDateTime(e.target.value)}
+        onChange={handleStartDateTimeChange}
         className="input input-bordered w-full mb-2"
         placeholder="Start DateTime"
         required={true}
@@ -52,7 +65,7 @@ function ScheduleTaskForm({ task, onTaskChange, setScheduleMode }) {
       <input
         type="datetime-local"
         value={endDateTime}
-        onChange={(e) => setEndDateTime(e.target.value)}
+        onChange={handleEndDateTimeChange}
         className="input input-bordered w-full mb-2"
         placeholder="End DateTime"
         required={true}
