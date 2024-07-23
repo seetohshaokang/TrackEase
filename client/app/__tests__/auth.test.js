@@ -20,6 +20,9 @@ describe("Auth Component", () => {
     // Mock console.error and window.alert
     jest.spyOn(console, "error").mockImplementation(() => {});
     jest.spyOn(window, "alert").mockImplementation(() => {});
+
+    // Ensure localStorage is clean before each test
+    localStorage.clear();
   });
 
   test("renders the Sign in with Google button", () => {

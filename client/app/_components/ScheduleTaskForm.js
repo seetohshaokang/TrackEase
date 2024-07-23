@@ -46,7 +46,7 @@ function ScheduleTaskForm({ task, onTaskChange, setScheduleMode }) {
         onChange={(e) => setStartDateTime(e.target.value)}
         className="input input-bordered w-full mb-2"
         placeholder="Start DateTime"
-        required="true"
+        required={true}
       />
 
       <input
@@ -55,7 +55,7 @@ function ScheduleTaskForm({ task, onTaskChange, setScheduleMode }) {
         onChange={(e) => setEndDateTime(e.target.value)}
         className="input input-bordered w-full mb-2"
         placeholder="End DateTime"
-        required="true"
+        required={true}
       />
 
       <div className="flex justify-center space-x-1">
