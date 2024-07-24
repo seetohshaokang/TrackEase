@@ -5,7 +5,7 @@ export default function Carousel() {
     return (
       <div>
 
-      <h1 className="flex justify-center text-4xl font-bold text-custom-blue pb-4">Features</h1>
+      <h1 className="flex justify-center text-4xl font-bold text-custom-blue py-4">Features</h1>
 
       <div className="flex space-x-8">
 

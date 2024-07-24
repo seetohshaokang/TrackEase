@@ -1,5 +1,6 @@
 import Auth from "./_components/Auth";
-import Carousel from "./_components/Carousel";
+import Feature from "./_components/Feature";
+import Footer from "./_components/Footer";
 import Image from "next/image";
 import MediaQuery from "./_components/MediaQuery";
 
@@ -7,21 +8,20 @@ export default function Page() {
   return (
     <MediaQuery>
     <div className="">
-        <main className="flex flex-col items-center justify-center min-h-screen space-y-8" style={{ backgroundImage: "url('/green-background.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-        <div className="p-10 text-center max-w-md">
+        <main className="flex relative flex-col justify-center min-h-screen bg-fixed" style={{ backgroundImage: "url('/homepage-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+        <div className="p-10 absolute left-1/4 transform -translate-x-1/3 text-center max-w-lg space-y-5">
           <div className="flex items-center justify-center p-4">
           <Image src="/trackease-navbar-logo.png" alt="trackease logo" width={88} height={88}/>
           </div>
-          <h1 className="text-3xl font-bold mb-4 text-custom-blue">Task tracking made easy.</h1>
-          <p className="text-custom-blue">
-            This is your one-stop hub to track your deliverables and manage your time more effectively.
+          <h1 className="text-4xl font-bold mb-4 text-custom-blue">Task tracking made easy.</h1>
+          <p className="text-custom-blue text-xl">
+            Your one-stop hub to track your deliverables and manage your time more effectively.
           </p>
           <Auth />
         </div>
-        <div className="flex flex-row justify-center">        
-          <Carousel className="my-1 "/>
-        </div>
       </main>
+      <Feature />
+      <Footer />
     </div>
     </MediaQuery>
   );
