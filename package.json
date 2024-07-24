@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "brijr-craft": "^0.1.0",
     "react-wrap-balancer": "^1.1.1"
   }
 }
