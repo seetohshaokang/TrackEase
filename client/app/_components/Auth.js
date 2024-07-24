@@ -53,7 +53,7 @@ function Auth() {
 
   return (
     <div>
-      <button className="btn btn-outline btn-success mt-5" onClick={signInWithGoogle}>Sign in with Google </button>
+      <button className="btn btn-success text-white btn-lg mt-5" onClick={signInWithGoogle}>Sign in with Google </button>
     </div>
   );
 }
