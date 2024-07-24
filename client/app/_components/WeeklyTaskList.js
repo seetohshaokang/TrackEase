@@ -1,5 +1,6 @@
 "use client";
 
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import Task from "./Task";
 
@@ -7,7 +8,6 @@ function WeeklyTaskList() {
   const [weeklyTasks, setWeeklyTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
     setLoading(true);
@@ -42,23 +42,18 @@ function WeeklyTaskList() {
     );
   };
 
-  const filteredTasks = weeklyTasks.filter((task) => {
-    if (activeTab === "completed") {
-      return task.completed;
-    }
-    if (activeTab === "uncompleted") {
-      return !task.completed;
-    }
-    return true;
-  });
+  const allTasks = weeklyTasks;
+  const uncompletedTasks = weeklyTasks.filter((task) => !task.completed);
+  const completedTasks = weeklyTasks.filter((task) => task.completed);
+  const today = dayjs().format("YYYY-MM-DD");
+  const tasksDueToday = weeklyTasks.filter(
+    (task) => dayjs(task.dueDate).format("YYYY-MM-DD") === today
+  );
 
-  const completedTasksCount = weeklyTasks.filter(
-    (task) => task.completed
-  ).length;
-
+  const completedTasksCount = completedTasks.length;
   const progress =
-    weeklyTasks.length > 0
-      ? Math.round((completedTasksCount / weeklyTasks.length) * 100)
+    allTasks.length > 0
+      ? Math.round((completedTasksCount / allTasks.length) * 100)
       : 0;
 
   if (loading) {
@@ -69,67 +64,101 @@ function WeeklyTaskList() {
   }
 
   return (
-    <div className="p-5 bg-white rounded-lg shadow-lg max-w-2xl m-auto mt-5">
-      <h2 className="text-xl font-bold mb-4"> Tasks for the Upcoming Week</h2>
-      <div className="flex justify-center">
-        <div
-          key={progress}
-          className="radial-progress"
-          style={{
-            "--value": progress,
-            "--size": "10rem",
-            "--thickness": "10px",
-          }}
-        >
-          {progress}
+    <div className="p-5 bg-white rounded-lg shadow-lg max-w-6xl m-auto mt-5">
+      <h2 className="text-xl font-bold mb-4">Tasks for the Upcoming Week</h2>
+
+      <div className="flex justify-around items-center mb-4">
+        <div className="w-1/3 p-2 text-center bg-red-100 rounded-lg">
+          <div className="stat">
+            <div className="stat-title">Tasks Due Today</div>
+            <div className="stat-value">{tasksDueToday.length}</div>
+            <div className="stat-desc">due today</div>
+          </div>
+        </div>
+
+        <div className="w-1/3 p-2 text-center bg-blue-100 rounded-lg">
+          <div className="stat">
+            <div className="stat-title">Uncompleted Tasks</div>
+            <div className="stat-value">{uncompletedTasks.length}</div>
+            <div className="stat-desc">out of {allTasks.length} tasks</div>
+          </div>
+        </div>
+
+        <div className="w-1/3 p-2 text-center">
+          <div
+            key={progress}
+            className="radial-progress"
+            style={{
+              "--value": progress,
+              "--size": "10rem",
+              "--thickness": "10px",
+            }}
+          >
+            {progress}%
+          </div>
+          <p className="mt-2">
+            {completedTasksCount} of {allTasks.length} tasks completed
+          </p>
         </div>
       </div>
-      <p className="text-center my-2">
-        {completedTasksCount} of {weeklyTasks.length} tasks completed
-      </p>
 
-      <div className="flex justify-around mb-4">
-        <button
-          className={`py-2 px-4 rounded-lg text-xl ${
-            activeTab === "all" ? "bg-gray-300" : "bg-gray-100"
-          }`}
-          onClick={() => setActiveTab("all")}
-        >
-          All
-        </button>
-
-        <button
-          className={`py-2 px-4 rounded-lg text-xl ${
-            activeTab === "uncompleted" ? "bg-gray-300" : "bg-gray-100"
-          }`}
-          onClick={() => setActiveTab("uncompleted")}
-        >
-          Uncompleted
-        </button>
-        <button
-          className={`py-2 px-4 rounded-lg text-xl ${
-            activeTab === "completed" ? "bg-gray-300" : "bg-gray-100"
-          }`}
-          onClick={() => setActiveTab("completed")}
-        >
-          Completed
-        </button>
-      </div>
-
-      <div className="flex flex-col gap-4">
-        {filteredTasks.length === 0 ? (
-          <div className="alert alert-warning">
-            No tasks scheduled for the upcoming week.
+      <div className="flex justify-around">
+        <div className="w-1/3 p-2">
+          <h3 className="text-lg font-semibold mb-2">All Tasks</h3>
+          <div className="flex flex-col gap-4">
+            {allTasks.length === 0 ? (
+              <div className="alert alert-warning">
+                No tasks scheduled for the upcoming week.
+              </div>
+            ) : (
+              allTasks.map((task) => (
+                <Task
+                  key={task._id}
+                  task={task}
+                  onTaskChange={() => handleTaskCompletionToggle(task._id)}
+                />
+              ))
+            )}
           </div>
-        ) : (
-          filteredTasks.map((task) => (
-            <Task
-              key={task._id}
-              task={task}
-              onTaskChange={() => handleTaskCompletionToggle(task._id)}
-            />
-          ))
-        )}
+        </div>
+
+        <div className="w-1/3 p-2">
+          <h3 className="text-lg font-semibold mb-2">Uncompleted Tasks</h3>
+          <div className="flex flex-col gap-4">
+            {uncompletedTasks.length === 0 ? (
+              <div className="alert alert-warning">
+                No uncompleted tasks for the upcoming week.
+              </div>
+            ) : (
+              uncompletedTasks.map((task) => (
+                <Task
+                  key={task._id}
+                  task={task}
+                  onTaskChange={() => handleTaskCompletionToggle(task._id)}
+                />
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="w-1/3 p-2">
+          <h3 className="text-lg font-semibold mb-2">Completed Tasks</h3>
+          <div className="flex flex-col gap-4">
+            {completedTasks.length === 0 ? (
+              <div className="alert alert-warning">
+                No completed tasks for the upcoming week.
+              </div>
+            ) : (
+              completedTasks.map((task) => (
+                <Task
+                  key={task._id}
+                  task={task}
+                  onTaskChange={() => handleTaskCompletionToggle(task._id)}
+                />
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
