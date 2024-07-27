@@ -158,6 +158,11 @@ exports.checkTaskExists = async (req, res, next) => {
 
 exports.getWeeklyTaskSummary = async (req, res) => {
   const today = new Date();
+  const todayStart = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
   const nextWeek = new Date(
     today.getFullYear(),
     today.getMonth(),
@@ -168,7 +173,7 @@ exports.getWeeklyTaskSummary = async (req, res) => {
     const tasks = await Task.find({
       user_id: req.user.uid,
       deadline: {
-        $gte: today,
+        $gte: todayStart,
         $lt: nextWeek,
       },
     })
@@ -186,6 +191,8 @@ exports.getWeeklyTaskSummary = async (req, res) => {
 // End point for task search bar
 exports.getSuggestions = async (req, res) => {
   const { prefix } = req.query;
+  console.log(`Fetching suggestions for prefix: ${prefix}`);
+
   try {
     const suggestions = await SearchLog.find({
       query: new RegExp(`^${prefix}`, "i"),

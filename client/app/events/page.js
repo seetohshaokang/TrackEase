@@ -2,10 +2,11 @@
 
 import { getIdToken } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import EventForm from "../_components/EventForm";
 import EventList from "../_components/EventList";
-import Navbar from "../_components/Navbar";
 import MediaQuery from "../_components/MediaQuery";
+import Navbar from "../_components/Navbar";
 import { auth } from "../_firebase/firebaseConfig";
 
 export default function EventsPage() {
@@ -61,19 +62,43 @@ export default function EventsPage() {
 
   return (
     <MediaQuery>
-    <div>
-      <Navbar />
-      <div className=" flex flex-col pl-28 pr-10 pt-4">
-        <button
-          className="btn btn-success btn-lg text-white mb-4 w-50 mx-auto shadow-md"
-          onClick={() => setShowForm(true)}
-        >
-          Create New Event
-        </button>
-        {showForm && <EventForm onSuccess={() => fetchEvents()} onClose={() => setShowForm(false)} />}
-        <EventList events={events} setEvents={setEvents} />
+      <Toaster
+        toastOptions={{
+          // Define default options
+          className: "",
+          duration: 5000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            theme: {
+              primary: "green",
+              secondary: "black",
+            },
+          },
+        }}
+      />
+      <div>
+        <Navbar />
+        <div className=" flex flex-col pl-28 pr-10 pt-4">
+          <button
+            className="btn btn-success btn-lg text-white mb-4 w-50 mx-auto shadow-md"
+            onClick={() => setShowForm(true)}
+          >
+            Create New Event
+          </button>
+          {showForm && (
+            <EventForm
+              onSuccess={() => fetchEvents()}
+              onClose={() => setShowForm(false)}
+            />
+          )}
+          <EventList events={events} setEvents={setEvents} />
+        </div>
       </div>
-    </div>
     </MediaQuery>
   );
 }
