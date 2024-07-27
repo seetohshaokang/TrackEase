@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 function DeleteTaskButton({ taskId, onTaskChange }) {
   async function handleDelete() {
     const token = localStorage.getItem("firebaseToken");
@@ -15,8 +17,10 @@ function DeleteTaskButton({ taskId, onTaskChange }) {
         throw new Error("Failed to delete task");
       }
       onTaskChange();
+      toast.success("Task deleted successfully");
     } catch (error) {
       console.error("Error deleting task", error);
+      toast.error("Error deleting tasks");
     }
   }
 

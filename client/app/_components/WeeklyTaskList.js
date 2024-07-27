@@ -46,9 +46,13 @@ function WeeklyTaskList() {
   const uncompletedTasks = weeklyTasks.filter((task) => !task.completed);
   const completedTasks = weeklyTasks.filter((task) => task.completed);
   const today = dayjs().format("YYYY-MM-DD");
-  const tasksDueToday = weeklyTasks.filter(
-    (task) => dayjs(task.dueDate).format("YYYY-MM-DD") === today
-  );
+  const tasksDueToday = weeklyTasks.filter((task) => {
+    const isDueToday = dayjs(task.deadline).format("YYYY-MM-DD") === today;
+    if (isDueToday) {
+      // console.log("Task due today:", task);
+    }
+    return isDueToday;
+  });
 
   const completedTasksCount = completedTasks.length;
   const progress =

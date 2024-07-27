@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 function EventForm({ event = {}, method = "POST", onSuccess, onClose }) {
   const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ function EventForm({ event = {}, method = "POST", onSuccess, onClose }) {
 
     if (!firebaseToken || !googleAccessToken) {
       console.error("No token found in localStorage");
+      toast.error("No token found. PLease log in again.");
       return;
     }
 
@@ -55,9 +57,15 @@ function EventForm({ event = {}, method = "POST", onSuccess, onClose }) {
       .then((result) => {
         onSuccess(result);
         onClose(); // Close the form after successful submission
+        toast.success(
+          `Event ${method === "POST" ? "created" : "updated"} successfully`
+        );
       })
       .catch((error) => {
         console.error("Error submitting form", error);
+        toast.error(
+          `Error ${method === "POST" ? "creating" : "updating"} event`
+        );
       });
   }
 

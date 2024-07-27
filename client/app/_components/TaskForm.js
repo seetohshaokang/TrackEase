@@ -1,5 +1,6 @@
 "use client";
 import { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { TaskContext } from "../context/TaskContext";
 
 function TaskForm({ onClose }) {
@@ -70,8 +71,10 @@ function TaskForm({ onClose }) {
       setRemarks("");
       setTags([]); // Clear tags
       onClose();
+      toast.success("Task created successfully");
     } catch (error) {
       console.error("Error creating task", error);
+      toast.error("Error creating task:" + error.message);
       setIsSubmitting(false); // Enable submit button again in case of error
     }
   }
