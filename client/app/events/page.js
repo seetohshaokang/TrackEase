@@ -83,8 +83,8 @@ export default function EventsPage() {
       />
       <div>
         <Navbar />
-        <div className=" flex flex-col pl-28 pr-10 pt-4">
-          <button
+        <div className=" flex flex-col pl-28 pr-10 py-4">
+        <button
             className="btn btn-success btn-lg text-white mb-4 w-50 mx-auto shadow-md"
             onClick={() => setShowForm(true)}
           >

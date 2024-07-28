@@ -35,8 +35,7 @@ export default function TaskPage() {
       />
       <div className="flex">
         <Navbar />
-        <div className="flex-grow flex flex-row pl-28 pr-10 pt-4">
-          <TasksProvider>
+        <div className="flex-grow flex flex-row pl-28 pr-10 py-4">          <TasksProvider>
             <div className=" basis-3/5 pr-4">
               <TaskList />
             </div>

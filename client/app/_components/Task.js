@@ -38,7 +38,7 @@ export default function Task({ task, onTaskChange }) {
   return (
     <div
       key={task._id}
-      className="card rounded-md w-full bg-gray-100 shadow-md p-4 "
+      className="card rounded-md w-full bg-gray-100 shadow-md p-4 min-w-80"
     >
       {editMode ? (
         <UpdateTaskForm

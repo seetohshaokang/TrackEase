@@ -26,9 +26,9 @@ export default function DashboardPage() {
           },
         }}
       />
-      <div>
+      <Navbar />
+      <div className="flex-grow flex justify-center pl-24 pr-16 py-4">
         <TasksProvider>
-          <Navbar />
           <Dashboard />
         </TasksProvider>
       </div>

@@ -15,7 +15,7 @@ const featureText = [
     description:
       "Our dashboard feature provides a weekly view of your tasks and shows the percentage of tasks completed, helping you stay on top of your progress.",
     cta: "Click for demo",
-    videoSrc: "/taskfeaturevideo.mp4", 
+    videoSrc: "/dashboard-feature.mp4", 
   },
   {
     icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -27,7 +27,7 @@ const featureText = [
     description:
       "Our task tracking feature lets you add, edit, bookmark, delete, schedule, tag, complete, and search tasks with ease.",
     cta: "Click for demo",
-    videoSrc: "/taskfeaturevideo.mp4", 
+    videoSrc: "/task-feature.mp4", 
   },
   {
     icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -39,7 +39,7 @@ const featureText = [
     description:
       "Our event calendar feature lets you add, edit, and delete events, all seamlessly linked to your Google Calendar.",
     cta: "Click for demo",
-    videoSrc: "/eventfeaturevideo.mp4", 
+    videoSrc: "/event-feature.mp4", 
   }
 ];
 
@@ -91,7 +91,7 @@ const Feature = () => {
                   >
                     <video
                       src={videoSrc}
-                      autoPlay loop muted controls controlsList="nodownload"
+                      autoPlay loop controls controlsList="nodownload"
                       disableRemotePlayback
                       disablePictureInPicture
                       className="w-full h-full object-cover"
