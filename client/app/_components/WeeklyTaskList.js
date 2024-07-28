@@ -68,11 +68,12 @@ function WeeklyTaskList() {
   }
 
   return (
-    <div className="p-5 bg-white rounded-lg shadow-lg max-w-6xl m-auto mt-5">
-      <h2 className="text-xl font-bold mb-4">Tasks for the Upcoming Week</h2>
+    <div className=" flex flex-col items-center justify-center">
+      <h2 className="text-xl font-bold mb-4">Your Progress for the Upcoming Week</h2>
 
-      <div className="flex justify-around items-center mb-4">
-        <div className="w-1/3 p-2 text-center bg-red-100 rounded-lg">
+      <div className=" flex flex-row justify-center items-center space-x-10 py-2">
+        <div className={`w-1/3 p-2 text-center rounded-lg 
+        ${tasksDueToday.length > 0 ? 'bg-red-100' : 'bg-green-100'}`}>
           <div className="stat">
             <div className="stat-title">Tasks Due Today</div>
             <div className="stat-value">{tasksDueToday.length}</div>
@@ -80,7 +81,11 @@ function WeeklyTaskList() {
           </div>
         </div>
 
-        <div className="w-1/3 p-2 text-center bg-blue-100 rounded-lg">
+        <div className={`w-1/3 p-2 text-center rounded-lg 
+          ${uncompletedTasks.length === 0 ? 'bg-green-100' : 
+            (uncompletedTasks.length / allTasks.length <= 0.5) ? 'bg-amber-100' :
+            'bg-red-100'
+          }`}>
           <div className="stat">
             <div className="stat-title">Uncompleted Tasks</div>
             <div className="stat-value">{uncompletedTasks.length}</div>
@@ -91,7 +96,7 @@ function WeeklyTaskList() {
         <div className="w-1/3 p-2 text-center">
           <div
             key={progress}
-            className="radial-progress"
+            className="radial-progress bg-slate-100"
             style={{
               "--value": progress,
               "--size": "10rem",
@@ -107,12 +112,12 @@ function WeeklyTaskList() {
       </div>
 
       <div className="flex justify-around">
-        <div className="w-1/3 p-2">
+        <div className="w-1/3 p-2 dashboard-custom:block hidden">
           <h3 className="text-lg font-semibold mb-2">All Tasks</h3>
           <div className="flex flex-col gap-4">
             {allTasks.length === 0 ? (
-              <div className="alert alert-warning">
-                No tasks scheduled for the upcoming week.
+              <div className="alert">
+                No tasks scheduled for the upcoming week. Time to relax :)
               </div>
             ) : (
               allTasks.map((task) => (
@@ -130,8 +135,8 @@ function WeeklyTaskList() {
           <h3 className="text-lg font-semibold mb-2">Uncompleted Tasks</h3>
           <div className="flex flex-col gap-4">
             {uncompletedTasks.length === 0 ? (
-              <div className="alert alert-warning">
-                No uncompleted tasks for the upcoming week.
+              <div className="alert">
+                No uncompleted tasks for the upcoming week. Good job!
               </div>
             ) : (
               uncompletedTasks.map((task) => (
@@ -149,7 +154,7 @@ function WeeklyTaskList() {
           <h3 className="text-lg font-semibold mb-2">Completed Tasks</h3>
           <div className="flex flex-col gap-4">
             {completedTasks.length === 0 ? (
-              <div className="alert alert-warning">
+              <div className="alert">
                 No completed tasks for the upcoming week.
               </div>
             ) : (
