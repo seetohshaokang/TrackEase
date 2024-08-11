@@ -96,7 +96,7 @@ function TaskSearchbar() {
   };
 
   const handleSearch = (term) => {
-    console.log("Searching for:", term);
+    // console.log("Searching for:", term);
     fetchTasks(term);
     setSuggestions([]);
     setShowSuggestions(false);
@@ -117,7 +117,7 @@ function TaskSearchbar() {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    console.log("Suggestion clicked:", suggestion);
+    // console.log("Suggestion clicked:", suggestion);
     setSearchTerm(suggestion);
     handleSearch(suggestion);
     //fetchTasks(suggestion);
@@ -125,11 +125,11 @@ function TaskSearchbar() {
   };
 
   useEffect(() => {
-    console.log("Search term updated:", searchTerm);
+    // console.log("Search term updated:", searchTerm);
   }, [searchTerm]);
 
   useEffect(() => {
-    console.log("Suggestions updated:", suggestions);
+    // console.log("Suggestions updated:", suggestions);
   }, [suggestions]);
 
   return (

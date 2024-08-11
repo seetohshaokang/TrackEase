@@ -47,7 +47,7 @@ export default function EventsPage() {
         throw new Error("Failed to fetch events");
       }
       const data = await response.json();
-      console.log("Fetched events:", data);
+      // console.log("Fetched events:", data);
       setEvents(data);
     } catch (error) {
       console.error("Failed to fetch events", error);
@@ -58,7 +58,7 @@ export default function EventsPage() {
     fetchEvents();
   }, []);
 
-  console.log("Rendering EventsPage with events", events);
+  // console.log("Rendering EventsPage with events", events);
 
   return (
     <MediaQuery>
@@ -84,7 +84,7 @@ export default function EventsPage() {
       <div>
         <Navbar />
         <div className=" flex flex-col pl-28 pr-10 py-4">
-        <button
+          <button
             className="btn btn-success btn-lg text-white mb-4 w-50 mx-auto shadow-md"
             onClick={() => setShowForm(true)}
           >

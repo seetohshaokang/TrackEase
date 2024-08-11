@@ -69,11 +69,15 @@ function WeeklyTaskList() {
 
   return (
     <div className=" flex flex-col items-center justify-center">
-      <h2 className="text-xl font-bold mb-4">Your Progress for the Upcoming Week</h2>
+      <h2 className="text-xl font-bold mb-4">
+        Your Progress for the Upcoming Week
+      </h2>
 
       <div className=" flex flex-row justify-center items-center space-x-10 py-2">
-        <div className={`w-1/3 p-2 text-center rounded-lg 
-        ${tasksDueToday.length > 0 ? 'bg-red-100' : 'bg-green-100'}`}>
+        <div
+          className={`w-1/3 p-2 text-center rounded-lg 
+        ${tasksDueToday.length > 0 ? "bg-red-100" : "bg-green-100"}`}
+        >
           <div className="stat">
             <div className="stat-title">Tasks Due Today</div>
             <div className="stat-value">{tasksDueToday.length}</div>
@@ -81,11 +85,16 @@ function WeeklyTaskList() {
           </div>
         </div>
 
-        <div className={`w-1/3 p-2 text-center rounded-lg 
-          ${uncompletedTasks.length === 0 ? 'bg-green-100' : 
-            (uncompletedTasks.length / allTasks.length <= 0.5) ? 'bg-amber-100' :
-            'bg-red-100'
-          }`}>
+        <div
+          className={`w-1/3 p-2 text-center rounded-lg 
+          ${
+            uncompletedTasks.length === 0
+              ? "bg-green-100"
+              : uncompletedTasks.length / allTasks.length <= 0.5
+              ? "bg-amber-100"
+              : "bg-red-100"
+          }`}
+        >
           <div className="stat">
             <div className="stat-title">Uncompleted Tasks</div>
             <div className="stat-value">{uncompletedTasks.length}</div>

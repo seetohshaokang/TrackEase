@@ -63,7 +63,7 @@ function TaskForm({ onClose }) {
         return;
       }
       const savedTask = await response.json();
-      console.log("Task created successfully", savedTask);
+      // console.log("Task created successfully", savedTask);
       // Clear the form fields
       fetchTasks();
       setTitle("");

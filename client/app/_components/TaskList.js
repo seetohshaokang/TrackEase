@@ -12,12 +12,14 @@ function TaskList() {
 
   useEffect(() => {
     if (fetchTasks) {
-      fetchTasks().then(() => console.log("Tasks fetched:", tasks));
+      fetchTasks();
+      // .then(() => console.log("Tasks fetched:", tasks))
     }
   }, [fetchTasks]);
 
   const handleTaskChange = () => {
-    fetchTasks().then(() => console.log("Tasks refetched after update"));
+    fetchTasks();
+    // .then(() => console.log("Tasks refetched after update"))
   };
 
   const filteredTasks = tasks.filter((task) => {
@@ -30,7 +32,7 @@ function TaskList() {
     return true;
   });
 
-  console.log("Filtered Tasks:", filteredTasks);
+  // console.log("Filtered Tasks:", filteredTasks);
 
   return (
     <div>

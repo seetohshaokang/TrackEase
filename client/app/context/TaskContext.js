@@ -15,8 +15,8 @@ export const TasksProvider = ({ children }) => {
         }/api/tasks/searchtasks?search=${encodeURIComponent(searchTerm)}`
       : `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/tasklist`;
 
-    console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
-    console.log("API URL:", url);
+    // console.log("Firebase token retrieved: ", token ? "Yes" : "No token found");
+    // console.log("API URL:", url);
 
     try {
       const response = await fetch(url, {
@@ -34,7 +34,7 @@ export const TasksProvider = ({ children }) => {
         );
       }
       setTasks(data);
-      console.log("Tasks fetched successfully:", data);
+      // console.log("Tasks fetched successfully:", data);
     } catch (error) {
       console.error("Error fetching tasks", error);
     }
@@ -87,7 +87,8 @@ export const TasksProvider = ({ children }) => {
 
   // Automatically fetch tasks when component mounts
   useEffect(() => {
-    fetchTasks().then(() => console.log("Initial fetch of tasks"));
+    fetchTasks();
+    // .then(() => console.log("Initial fetch of tasks"))
   }, [fetchTasks]);
 
   return (
