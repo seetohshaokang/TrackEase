@@ -48,9 +48,7 @@ function EventList({ events, setEvents }) {
     const endDateTime = new Date(
       event.end.dateTime || event.end.date
     ).getTime();
-    console.log(
-      `Event: ${event.summary}, EndDateTime: ${endDateTime}, Now: ${now}`
-    );
+    // console.log(`Event: ${event.summary}, EndDateTime: ${endDateTime}, Now: ${now}`);
     return activeTab === "upcoming" ? endDateTime >= now : endDateTime < now;
   });
 

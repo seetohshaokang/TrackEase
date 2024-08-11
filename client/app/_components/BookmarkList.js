@@ -9,7 +9,8 @@ function BookmarkList() {
 
   useEffect(() => {
     if (fetchTasks) {
-      fetchTasks().then(() => console.log("Tasks fetched:", tasks));
+      fetchTasks();
+      // .then(() => console.log("Tasks fetched:", tasks))
     }
   }, [fetchTasks]);
 
@@ -19,12 +20,14 @@ function BookmarkList() {
 
   const bookmarkedTasks = tasks.filter((task) => task.bookmarked);
 
-  console.log("Bookmarked Tasks:", bookmarkedTasks);
+  // console.log("Bookmarked Tasks:", bookmarkedTasks);
 
   return (
     <div className="flex flex-col gap-4">
       {bookmarkedTasks.length === 0 ? (
-        <div className="flex items-center justify-center alert">No bookmarked tasks yet</div>
+        <div className="flex items-center justify-center alert">
+          No bookmarked tasks yet
+        </div>
       ) : (
         bookmarkedTasks.map((task) => (
           <Task key={task._id} task={task} onTaskChange={handleTaskChange} />

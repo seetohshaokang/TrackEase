@@ -12,7 +12,7 @@ function ScheduleTaskForm({ task, onTaskChange, setScheduleMode }) {
         endDateTime: `${endDateTime}:00Z`,
       };
 
-      console.log("Payload being sent to schedule task:", payload);
+      // console.log("Payload being sent to schedule task:", payload);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/tasks/schedule`,
@@ -72,19 +72,19 @@ function ScheduleTaskForm({ task, onTaskChange, setScheduleMode }) {
       />
 
       <div className="flex justify-center space-x-1">
-      <button
-        onClick={handleSchedule}
-        className="btn text-white bg-blue-400 mt-2"
-      >
-        Schedule
-      </button>
+        <button
+          onClick={handleSchedule}
+          className="btn text-white bg-blue-400 mt-2"
+        >
+          Schedule
+        </button>
 
-      <button
-        onClick={() => setScheduleMode(false)}
-        className="btn bg-gray-400 text-white mt-2"
-      >
-        Cancel
-      </button>
+        <button
+          onClick={() => setScheduleMode(false)}
+          className="btn bg-gray-400 text-white mt-2"
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );

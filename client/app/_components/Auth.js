@@ -13,9 +13,9 @@ export function signOutUser() {
   return signOut(auth)
     .then(() => {
       localStorage.removeItem("firebaseToken"); // Remove firebase token
-      console.log("removed firebaseToken");
+      // console.log("removed firebaseToken");
       localStorage.removeItem("googleAccessToken");
-      console.log("removed googleAccessToken");
+      // console.log("removed googleAccessToken");
       alert("You have successfully logged out!"); // Alert user of successful logout
     })
     .catch((error) => {
@@ -38,8 +38,8 @@ function Auth() {
       const googleAccessToken = credential.accessToken;
 
       const idToken = await getIdToken(result.user, true);
-      console.log("Firebase ID Token:", idToken);
-      console.log("Google Access Token:", googleAccessToken);
+      //console.log("Firebase ID Token:", idToken);
+      //console.log("Google Access Token:", googleAccessToken);
 
       // Store both tokens in localStorage
       localStorage.setItem("firebaseToken", idToken);
@@ -53,7 +53,12 @@ function Auth() {
 
   return (
     <div>
-      <button className="btn btn-success text-white btn-lg mt-5" onClick={signInWithGoogle}>Sign in with Google </button>
+      <button
+        className="btn btn-success text-white btn-lg mt-5"
+        onClick={signInWithGoogle}
+      >
+        Sign in with Google{" "}
+      </button>
     </div>
   );
 }
